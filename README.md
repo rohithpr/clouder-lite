@@ -8,26 +8,26 @@ Get speeds greater than that of Bluetooth.
 Absence of an OS in the list does not mean that it doesn't work on that OS but simply means that it hasn't been tested there. Please add any items, that are missing, to the list if you have verified it.
 
 ## Contents
-* [Supported OS - Computer]()
-* [Supported OS - Phone]()
-* [Setup]()
-* [Usage]()
+* [Supported OS - Computer](https://github.com/rohithpr/clouder-lite#supported-os---computer)
+* [Supported OS - Phone](https://github.com/rohithpr/clouder-lite#supported-os---phone)
+* [Setup](https://github.com/rohithpr/clouder-lite#setup)
+* [Usage](https://github.com/rohithpr/clouder-lite#usage)
 
 ### Supported OS - Computer
 
 * Working
-1. Ubuntu 14.04
+ 1. Ubuntu 14.04
 
 * Not working
 
 ### Supported OS - Phone
 
 * Working
-1. Windows 8.1 Denim
- * Working
-  * Internet Explorer
- * Not working
-  * UC Browser - Multiple file selection unavailable; File system access unavailable;
+ 1. Windows 8.1 Denim
+  * Working
+   * Internet Explorer
+  * Not working
+   * UC Browser - Multiple file selection unavailable; File system access unavailable;
 
 * Not working
 
