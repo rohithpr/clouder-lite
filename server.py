@@ -1,15 +1,43 @@
-from flask import Flask, request, jsonify, redirect, url_for, render_template
+from flask import Flask, request, jsonify, redirect, url_for, render_template, send_from_directory
 from werkzeug import secure_filename
 import os
+from helpers import get_trunc_path
 from random import random
 
-UPLOAD_FOLDER = os.getcwd() + '/uploads/'
+CONTENT_FOLDER = os.getcwd() + '/content/'
+LEN_CONTENT_FOLDER = len(CONTENT_FOLDER) - 1
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'mp4'])
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER'] = CONTENT_FOLDER
 
-def allowed_file(filename):
+@app.route('/c/<path:filename>')
+def file_transfer(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
+
+
+@app.route('/api/get_tree/<path:name>')
+def api(name):
+    if name == 'root':
+        path = app.config['UPLOAD_FOLDER']
+    else:
+        path = os.path.join(app.config['UPLOAD_FOLDER'], name)
+    if path[-1] == '/':
+        path = path[:-1]
+    tree = {}
+    for (dirpath, directories, files) in os.walk(path):
+        print('a')
+        name, parent = get_trunc_path(dirpath, LEN_CONTENT_FOLDER)
+        print('b')
+        tree[name] = {
+            'directories': directories,
+            'files': files,
+            'clean': True,
+            'parent': parent,
+        }
+    return jsonify(tree)
+
+def is_allowed_file(filename):
     return True # Allow all files?
     # return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
@@ -28,13 +56,13 @@ def get_name(filename, existing):
     existing.append(new_name)
     return new_name
 
-@app.route('/', methods=['GET', 'POST'])
-def upload_file():
+@app.route('/content', methods=['GET', 'POST'])
+def content_file():
     if request.method == 'POST':
         files = request.files.getlist('files')
-        filenames = [_ for _ in os.listdir('./uploads')]
+        filenames = [_ for _ in os.listdir('./contents')]
         for file in files:
-            if file and allowed_file(file.filename):
+            if file and is_allowed_file(file.filename):
                 filename = get_name(file.filename, filenames)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     return render_template('index.html')
