@@ -1,5 +1,8 @@
 # clouder-lite
-A simple Python3-Flask application to turn a machine into a cloud storage system over Wi-Fi.
+
+##### Note: Undergoing some major changes. The app is broken at the momemt.
+
+A simple Python3-Flask application to turn a computer into a cloud storage system over Wi-Fi.
 
 Use this app to start a server on your laptop and upload files from a phone or another laptop over Wi-Fi.
 
