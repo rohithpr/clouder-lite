@@ -1,41 +1,98 @@
+var GLOBALS = {
+  tree: undefined,
+  clean: false,
+  current_parent: undefined
+}
+
 $(document).ready( function(){
+  /* Fetches the entire tree 
+   */
+  var get_tree = function(callback) {
+    if (GLOBALS.tree && GLOBALS.clean) {
+      callback(GLOBALS.tree)
+    }
+    else {
+      var node = '/api/get_tree/root'
+      $.ajax({
+        type: "GET",
+        url: node,
+        dataType: "text",
+        cache: false,
+        success: function(response) {
+          response = $.parseJSON(response)
+          // console.log(response)
+          GLOBALS.tree = response
+          callback(GLOBALS.tree)
+        },
+        error: function(xhr, textStatus, errorThrown){
+          alert('Something went wrong! Please report the error message displayed in the console.')
+          console.log(xhr, textStatus, errorThrown)
+        }
+      })
+    }
+  }
 
-	var populate = function(node, name) {
-		$.ajax({
-			type: "GET",
-      url: node,
-      dataType: "text",
-      cache: false,
-      success: function(response) {
-        response = $.parseJSON(response)
-        console.log(response)
-        var outer_folder = $('<div></div>')
-        response[name].directories.forEach( function(directory){
-          console.log(directory)
-          var folder = $('<div class="col-lg-2 col-xs-5 icon" name="' + directory + '"></div>')
-          var icon = $('<span class="glyphicon glyphicon-folder-open"></span>')
-          var name = $('<p>' + directory + '</p>')
-          folder.append(icon)
-          folder.append(name)
-          outer_folder.append(folder)
-        })
-        response[name].files.forEach( function(file){
-          console.log(file)
-          var folder = $('<div class="col-lg-2 col-xs-5 icon" style="text-align:center;" name="' + file + '"></div>')
-          var icon = $('<span class="glyphicon glyphicon-file"></span>')
-          var name = $('<p>' + file + '</p>')
-          folder.append(icon)
-          folder.append(name)
-          outer_folder.append(folder)
-        })
-        $('#main-area').append(outer_folder)
-      },
-      error: function(xhr, textStatus, errorThrown){
-        alert('Something went wrong! Please report the error message displayed in the console.')
-        console.log(xhr, textStatus, errorThrown)
-      }
-		})
-	}
+  /* Creates the thumbnail that holds the icons
+   */
+  var create_thumbnail = function(name, icon, type, outer_folder) {
+    // console.log(name, icon, type, outer_folder)
+    var folder = $('<div class="col-lg-2 col-xs-5 icon" type="' + type + '"></div>')
+    var icon = $('<span class="glyphicon glyphicon-' + icon + '"></span>')
+    var name = $('<p>' + name + '</p>')
+    folder.append(icon)
+    folder.append(name)
+    outer_folder.append(folder)
+  }
 
-	populate("/api/get_tree/root", "/")
+  /* Responsible for calling relevant functions for fetching the tree
+   * and creating icons on the screen
+   */
+  var populate = function(new_parent) {
+    get_tree(function(tree) {
+      var outer_folder = $('<div></div>')
+      tree[new_parent].directories.forEach(function(name){
+        create_thumbnail(name, 'folder-open', 'directory', outer_folder)
+      })
+      tree[new_parent].files.forEach(function(name){
+        create_thumbnail(name, 'file', 'file', outer_folder)
+      })
+      $('#main-area').empty().append(outer_folder)
+      GLOBALS.current_parent = new_parent
+    })
+  }
+
+  var generate_new_path = function(selected) {
+    var new_parent = GLOBALS.current_parent
+    if (new_parent[new_parent.length - 1] != '/') {
+      new_parent += '/'
+    }
+    new_parent += selected
+    return new_parent
+  }
+
+  var main = function() {
+    /* Home screen shows the contents of the user's root directory
+     */
+    populate("/")
+  }
+  main()
+
+  /* Event handlers */
+
+  /* Changes directory or transfers file on clicking on an icon
+   */
+  $('#main-area').on('click', '.icon', function(e){
+    var selected = $(this).find('p').html()
+    var type = $(this).attr('type')
+    // console.log(type)
+    if (type === 'directory') {
+      var new_parent = generate_new_path(selected)
+      // console.log(new_parent)
+      populate(new_parent)
+    }
+    else if (type === 'file') {
+      var file_path = generate_new_path(selected)
+      window.location.href = '/dl' + file_path
+    }
+  })
 })
