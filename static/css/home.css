@@ -33,11 +33,11 @@ body {
 
 @media(min-width:768px) {
 	.icon {
-		overflow-x: hidden;
+		overflow: hidden;
 	}
 
 	.icon:hover {
-		overflow-x: auto;
+		overflow: auto;
 	}
 }
 
