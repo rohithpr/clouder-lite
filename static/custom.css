@@ -1,3 +1,51 @@
 body {
 
 }
+
+#side-menu {
+	border:1px solid black;
+	margin:1px;
+	height: 100px;
+}
+
+#main-area {
+	border:1px solid black;
+	margin:1px;
+	/*height: 100px;*/
+}
+
+.glyphicon-folder-open {
+	font-size: 3em;
+	color: #FBB628;
+}
+
+.glyphicon-file {
+	font-size: 3em;
+	color: #284510;
+}
+
+.icon {
+		border:	3px solid grey;
+		margin: 5px;
+		padding-top: 5px;
+		text-align:center;
+}
+
+@media(min-width:768px) {
+	.icon {
+		overflow-x: hidden;
+	}
+
+	.icon:hover {
+		overflow-x: auto;
+	}
+}
+
+@media(max-width:767px) {
+	.icon {
+		overflow-x: auto;
+	}
+}
+
+
+

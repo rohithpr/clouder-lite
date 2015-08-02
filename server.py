@@ -30,6 +30,7 @@ def api(name):
             'clean': True,
             'parent': parent,
         }
+    tree['/']['files'].remove('.do-not-delete-this-file')
     return jsonify(tree)
 
 @app.route('/c/<path:path>', methods=['GET', 'POST'])
@@ -43,5 +44,9 @@ def content_file(path):
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     return render_template('index.html')
 
+@app.route('/')
+def home():
+    return render_template('home.html')
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', threaded=True)
+    app.run(host='0.0.0.0', threaded=True, debug=True)
