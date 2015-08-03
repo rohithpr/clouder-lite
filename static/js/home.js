@@ -38,7 +38,7 @@ $(document).ready( function(){
     // console.log(name, icon, type, outer_folder)
     var folder = $('<div class="col-lg-2 col-xs-5 icon" type="' + type + '"></div>')
     var icon = $('<span class="glyphicon glyphicon-' + icon + '"></span>')
-    var name = $('<p>' + name + '</p>')
+    var name = $('<p class="item-name">' + name + '</p>')
     folder.append(icon)
     folder.append(name)
     outer_folder.append(folder)

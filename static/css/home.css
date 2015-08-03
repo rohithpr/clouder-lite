@@ -3,48 +3,78 @@ body {
 }
 
 #side-menu {
-	border:1px solid black;
-	margin:1px;
-	height: 100px;
+  border:1px solid black;
+  margin:1px;
+  height: 100px;
 }
 
 #main-area {
-	border:1px solid black;
-	margin:1px;
-	/*height: 100px;*/
+  border:1px solid black;
+  margin:1px;
+  /*height: 100px;*/
 }
 
 .glyphicon-folder-open {
-	font-size: 3em;
-	color: #FBB628;
+  font-size: 3em;
+  color: #FBB628;
 }
 
 .glyphicon-file {
-	font-size: 3em;
-	color: #284510;
+  font-size: 3em;
+  color: #284510;
 }
 
+/* // Decide which one to use!!
+
 .icon {
-		border:	3px solid grey;
-		margin: 5px;
-		padding-top: 5px;
-		text-align:center;
+  border: 3px solid grey;
+  margin: 5px;
+  padding-top: 5px;
+  text-align: center;
+  white-space: nowrap;
 }
 
 @media(min-width:768px) {
-	.icon {
-		overflow: hidden;
-	}
+  .icon {
+    overflow: hidden;
+  }
 
-	.icon:hover {
-		overflow: auto;
-	}
+  .icon:hover {
+    overflow: auto;
+  }
 }
 
 @media(max-width:767px) {
-	.icon {
-		overflow-x: auto;
-	}
+  .icon {
+    overflow-x: auto;
+  }
+}*/
+
+.icon {
+  border: 3px solid grey;
+  margin: 5px;
+  padding-top: 5px;
+  text-align: center;
+}
+
+.item-name {
+  white-space: nowrap;
+}
+
+@media(min-width:768px) {
+  .item-name {
+    overflow: hidden;
+  }
+
+  .item-name:hover {
+    overflow: auto;
+  }
+}
+
+@media(max-width:767px) {
+  .item-name {
+    overflow-x: auto;
+  }
 }
 
 
