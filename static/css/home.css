@@ -74,6 +74,10 @@ body {
   text-align: center;
 }
 
+.icon:hover {
+	cursor: pointer;
+}
+
 .item-name {
   white-space: nowrap;
 }

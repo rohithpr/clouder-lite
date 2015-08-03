@@ -58,11 +58,24 @@ $(document).ready( function(){
       // Directory contents
       var outer_folder = $('<div></div>')
       outer_folder.append('<br/>')
+      var clearfix_counter = 0
       tree[new_parent].directories.forEach(function(name){
         create_thumbnail(name, 'folder-open', 'directory', outer_folder)
+        clearfix_counter++
+        console.log(clearfix_counter)
+        if (clearfix_counter == 5) {
+          outer_folder.append($('<div class="clearfix visible-xs-block visible-sm-block visible-md-block visible-lg-block"></div>'))
+          clearfix_counter = 0
+        }
       })
       tree[new_parent].files.forEach(function(name){
         create_thumbnail(name, 'file', 'file', outer_folder)
+        clearfix_counter++
+        console.log(clearfix_counter)
+        if (clearfix_counter == 5) {
+          outer_folder.append($('<div class="clearfix visible-xs-block visible-sm-block visible-md-block visible-lg-block"></div>'))
+          clearfix_counter = 0
+        }
       })
       $('#main-area').empty().append(outer_folder)
       GLOBALS.current_parent = new_parent
