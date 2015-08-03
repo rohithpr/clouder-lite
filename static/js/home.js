@@ -49,7 +49,15 @@ $(document).ready( function(){
    */
   var populate = function(new_parent) {
     get_tree(function(tree) {
+      // Special links
       var outer_folder = $('<div></div>')
+      create_thumbnail('Move up', 'level-up', 'parent', outer_folder)
+      create_thumbnail('Root', 'home', 'root', outer_folder)
+      $('#special-links').empty().append(outer_folder)
+
+      // Directory contents
+      var outer_folder = $('<div></div>')
+      outer_folder.append('<br/>')
       tree[new_parent].directories.forEach(function(name){
         create_thumbnail(name, 'folder-open', 'directory', outer_folder)
       })
@@ -73,7 +81,7 @@ $(document).ready( function(){
   var main = function() {
     /* Home screen shows the contents of the user's root directory
      */
-    populate("/")
+    populate('/')
   }
   main()
 
@@ -81,18 +89,31 @@ $(document).ready( function(){
 
   /* Changes directory or transfers file on clicking on an icon
    */
-  $('#main-area').on('click', '.icon', function(e){
+  $('#main-area, #special-links').on('click', '.icon', function(e){
     var selected = $(this).find('p').html()
     var type = $(this).attr('type')
     // console.log(type)
-    if (type === 'directory') {
-      var new_parent = generate_new_path(selected)
-      // console.log(new_parent)
-      populate(new_parent)
-    }
-    else if (type === 'file') {
-      var file_path = generate_new_path(selected)
-      window.location.href = '/dl' + file_path
-    }
+    get_tree(function(tree) {
+      if (type === 'directory') {
+        var new_parent = generate_new_path(selected)
+        // console.log(new_parent)
+        populate(new_parent)
+      }
+      else if (type === 'file') {
+        var file_path = generate_new_path(selected)
+        window.location.href = '/dl' + file_path
+      }
+      else if (type === 'root') {
+        var new_parent = '/'
+        populate(new_parent)
+      }
+      else if (type === 'parent') {
+        var new_parent = GLOBALS.tree[GLOBALS.current_parent].parent;
+        populate(new_parent)
+      }
+      else {
+        alert('Something went wrong on clicking this icon! Please report it.')
+      }
+    })
   })
 })
