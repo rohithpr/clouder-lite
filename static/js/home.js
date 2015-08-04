@@ -22,6 +22,7 @@ $(document).ready( function(){
           response = $.parseJSON(response)
           // console.log(response)
           GLOBALS.tree = response
+          GLOBALS.clean = true
           callback(GLOBALS.tree)
         },
         error: function(xhr, textStatus, errorThrown){
@@ -36,10 +37,11 @@ $(document).ready( function(){
    */
   var create_thumbnail = function(name, icon, type, outer_folder) {
     // console.log(name, icon, type, outer_folder)
-    var folder = $('<div class="col-lg-2 col-xs-5 icon" type="' + type + '"></div>')
-    var icon = $('<span class="glyphicon glyphicon-' + icon + '"></span>')
-    var name = $('<p class="item-name">' + name + '</p>')
-    folder.append(icon)
+    var folder = $('<div class="col-xs-12 icon" type="' + type + '"></div>')
+    // var icon = $('<span class="glyphicon glyphicon-' + icon + '"></span>')
+    var name = $('<p><span class="glyphicon glyphicon-' + icon + '"></span>' + 
+      '<span class="item-name">' + name + '</span></p>')
+    // folder.append(icon)
     folder.append(name)
     outer_folder.append(folder)
   }
@@ -62,7 +64,6 @@ $(document).ready( function(){
       tree[new_parent].directories.forEach(function(name){
         create_thumbnail(name, 'folder-open', 'directory', outer_folder)
         clearfix_counter++
-        console.log(clearfix_counter)
         if (clearfix_counter % 5 == 0) {
           outer_folder.append($('<div class="clearfix visible-lg-block"></div>'))
         }
@@ -73,7 +74,6 @@ $(document).ready( function(){
       tree[new_parent].files.forEach(function(name){
         create_thumbnail(name, 'file', 'file', outer_folder)
         clearfix_counter++
-        console.log(clearfix_counter)
         if (clearfix_counter % 5 == 0) {
           outer_folder.append($('<div class="clearfix visible-lg-block"></div>'))
         }
@@ -106,8 +106,8 @@ $(document).ready( function(){
 
   /* Changes directory or transfers file on clicking on an icon
    */
-  $('#main-area, #special-links').on('click', '.icon', function(e){
-    var selected = $(this).find('p').html()
+  $(document).on('click', '.icon', function(e){
+    var selected = $(this).find('.item-name').html()
     var type = $(this).attr('type')
     // console.log(type)
     get_tree(function(tree) {
