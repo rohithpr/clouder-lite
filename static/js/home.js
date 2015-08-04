@@ -63,18 +63,22 @@ $(document).ready( function(){
         create_thumbnail(name, 'folder-open', 'directory', outer_folder)
         clearfix_counter++
         console.log(clearfix_counter)
-        if (clearfix_counter == 5) {
-          outer_folder.append($('<div class="clearfix visible-xs-block visible-sm-block visible-md-block visible-lg-block"></div>'))
-          clearfix_counter = 0
+        if (clearfix_counter % 5 == 0) {
+          outer_folder.append($('<div class="clearfix visible-lg-block"></div>'))
+        }
+        if (clearfix_counter % 2 == 0) {
+          outer_folder.append($('<div class="clearfix visible-xs-block visible-sm-block visible-md-block"></div>'))
         }
       })
       tree[new_parent].files.forEach(function(name){
         create_thumbnail(name, 'file', 'file', outer_folder)
         clearfix_counter++
         console.log(clearfix_counter)
-        if (clearfix_counter == 5) {
-          outer_folder.append($('<div class="clearfix visible-xs-block visible-sm-block visible-md-block visible-lg-block"></div>'))
-          clearfix_counter = 0
+        if (clearfix_counter % 5 == 0) {
+          outer_folder.append($('<div class="clearfix visible-lg-block"></div>'))
+        }
+        if (clearfix_counter % 2 == 0) {
+          outer_folder.append($('<div class="clearfix visible-xs-block visible-sm-block visible-md-block"></div>'))
         }
       })
       $('#main-area').empty().append(outer_folder)
