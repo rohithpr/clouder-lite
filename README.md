@@ -26,10 +26,10 @@ Absence of an OS in the list does not mean that it doesn't work on that OS but s
 ### Supported OS - Phone
 
 1. Windows 8.1 Denim
- * Working
-  * Internet Explorer
- * Not working
-  * UC Browser - Multiple file selection unavailable; File system access unavailable;
+  * Working
+    * Internet Explorer
+  * Not working
+    * UC Browser - Multiple file selection unavailable; File system access unavailable;
 
 ### Setup
 
