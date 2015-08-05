@@ -28,7 +28,6 @@ body {
 
 .glyphicon-folder-open {
   color: #FBB628;
-  padding-right: 5px;
 }
 
 .glyphicon-file {
@@ -40,33 +39,20 @@ body {
 }
 
 .glyphicon {
+  padding-right: 10px;
 }
-
- /*// Decide which one to use!!*/
 
 .icon {
   border: 3px solid grey;
   margin: 5px;
-  padding-top: 5px;
+  padding-top: 10px;
+  /*padding-bottom: 0px;*/
   text-align: left;
   white-space: nowrap;
 }
 
-@media(min-width:768px) {
-  .icon {
-    overflow: hidden;
-  }
-
-  .icon:hover {
-    overflow: auto;
-  }
+.icon > p {
+  padding: 0px;
+  /*border: 1px solid black;*/
+  overflow: auto;
 }
-
-@media(max-width:767px) {
-  .icon {
-    overflow-x: auto;
-  }
-}
-
-
-

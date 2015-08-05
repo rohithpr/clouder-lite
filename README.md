@@ -19,20 +19,17 @@ Absence of an OS in the list does not mean that it doesn't work on that OS but s
 ### Supported OS - Computer
 
 * Working
- 1. Ubuntu 14.04
+ * Ubuntu 14.04
 
 * Not working
 
 ### Supported OS - Phone
 
-* Working
-  1. Windows 8.1 Denim
-    * Working
-      * Internet Explorer
-    * Not working
-      * UC Browser - Multiple file selection unavailable; File system access unavailable;
-
-* Not working
+* Windows 8.1 Denim
+ * Working
+  * Internet Explorer
+ * Not working
+  * UC Browser - Multiple file selection unavailable; File system access unavailable;
 
 ### Setup
 
