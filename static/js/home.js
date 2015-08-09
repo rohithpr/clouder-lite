@@ -37,13 +37,16 @@ $(document).ready( function(){
    */
   var create_thumbnail = function(name, icon, type, outer_folder) {
     // console.log(name, icon, type, outer_folder)
-    var folder = $('<div class="col-xs-12 icon" type="' + type + '"></div>')
-    // var icon = $('<span class="glyphicon glyphicon-' + icon + '"></span>')
-    var name = $('<p><span class="glyphicon glyphicon-' + icon + '"></span>' + 
-      '<span class="item-name">' + name + '</span></p>')
-    // folder.append(icon)
-    folder.append(name)
-    outer_folder.append(folder)
+    var node = $('<div class="col-xs-12 node" type="' + type + '"></div>')
+    var row = $('<div class="row"></div>')
+    var icon = $('<div class="col-xs-1"><span class="glyphicon glyphicon-' + icon + '"></span></div>')
+    var download_button = $('<div class="col-xs-1 downloader"><span class="glyphicon glyphicon-download"></span></div>')
+    var node_name = $('<div class="col-xs-9 col-sm-10"><div class="item-name">' + name + '</div></div>')
+    row.append(icon)
+    row.append(node_name)
+    row.append(download_button)
+    node.append(row)
+    outer_folder.append(node)
   }
 
   /* Responsible for calling relevant functions for fetching the tree
@@ -89,11 +92,36 @@ $(document).ready( function(){
 
   /* Event handlers */
 
-  /* Changes directory or transfers file on clicking on an icon
+  /* Download file or directory
    */
-  $(document).on('click', '.icon', function(e){
-    var selected = $(this).find('.item-name').html()
-    var type = $(this).attr('type')
+  $(document).on('click', '.downloader', function(e){
+    e.stopPropagation()
+    var node = $(this).parent().parent()
+    var selected = $(node).find('.item-name').html()
+    var type = $(node).attr('type')
+    // console.log(type)
+    get_tree(function(tree) {
+      if (type === 'directory') {
+        // Add a method to download entire directories, see issue #
+        // var new_parent = generate_new_path(selected)
+        // console.log(new_parent)
+      }
+      else if (type === 'file') {
+        var file_path = generate_new_path(selected)
+        window.location.href = '/dl' + file_path
+      }
+      else {
+        alert('Something went wrong on clicking this icon! Please report it.')
+      }
+    })
+  })
+
+  /* Changes directory
+   */
+  $(document).on('click', '.node', function(e){
+    var node = $(this) //.parent().parent()
+    var selected = $(node).find('.item-name').html()
+    var type = $(node).attr('type')
     // console.log(type)
     get_tree(function(tree) {
       if (type === 'directory') {
@@ -102,8 +130,8 @@ $(document).ready( function(){
         populate(new_parent)
       }
       else if (type === 'file') {
-        var file_path = generate_new_path(selected)
-        window.location.href = '/dl' + file_path
+        // var file_path = generate_new_path(selected)
+        // window.location.href = '/dl' + file_path
       }
       else if (type === 'root') {
         var new_parent = '/'
