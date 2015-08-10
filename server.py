@@ -4,10 +4,13 @@ import helpers
 from random import random
 
 CONTENT_FOLDER = os.getcwd() + '/content/'
+print(CONTENT_FOLDER)
 LEN_CONTENT_FOLDER = len(CONTENT_FOLDER) - 1
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = CONTENT_FOLDER
+print(app.config['UPLOAD_FOLDER'])
+
 
 @app.route('/dl/<path:filename>')
 def file_transfer(filename):
@@ -19,7 +22,7 @@ def api(name):
         path = app.config['UPLOAD_FOLDER']
     else:
         path = os.path.join(app.config['UPLOAD_FOLDER'], name)
-    if path[-1] == '/':
+    if path[-1] == os.sep:
         path = path[:-1]
     tree = {}
     for (dirpath, directories, files) in os.walk(path):
@@ -30,7 +33,7 @@ def api(name):
             'clean': True,
             'parent': parent,
         }
-    tree['/']['files'].remove('.do-not-delete-this-file')
+##    tree[os.sep]['files'].remove('.do-not-delete-this-file')
     return jsonify(tree)
 
 @app.route('/c/<path:path>', methods=['GET', 'POST'])
