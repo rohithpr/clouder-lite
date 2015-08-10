@@ -26,6 +26,10 @@ body {
   height: 100px;
 }*/
 
+#special-links > div > .node > .row > .downloader {
+  display: none;
+}
+
 .glyphicon-folder-open {
   color: #FBB628;
 }
@@ -38,21 +42,40 @@ body {
   color: #649390;
 }
 
-.glyphicon {
-  padding-right: 10px;
+.glyphicon-download {
+  color: #3D9970;
 }
 
-.icon {
-  border: 3px solid grey;
-  margin: 5px;
-  padding-top: 10px;
-  /*padding-bottom: 0px;*/
+.glyphicon {
+  font-size: 1.4em;
+  /*margin-right: 10px;*/
+}
+
+.node {
+  border: 1px solid grey;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   text-align: left;
   white-space: nowrap;
 }
 
-.icon > p {
+.node:hover {
+  cursor: default;
+}
+
+.node > .row > div {
+  /*border: 1px solid black;*/
+}
+
+.node > .row > .col-xs-1 {
+  text-align: center;
+}
+
+.node > .row > div > .item-name {
   padding: 0px;
   /*border: 1px solid black;*/
   overflow: auto;
+  font-size: 1.2em;
 }
