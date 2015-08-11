@@ -46,6 +46,10 @@ body {
   color: #3D9970;
 }
 
+.glyphicon-download:hover {
+  color: #5DC9A0;
+}
+
 .glyphicon {
   font-size: 1.4em;
   /*margin-right: 10px;*/

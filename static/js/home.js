@@ -1,9 +1,3 @@
-var GLOBALS = {
-  tree: undefined,
-  clean: false,
-  current_parent: undefined
-}
-
 $(document).ready( function(){
   /* Fetches the entire tree 
    */
@@ -71,6 +65,7 @@ $(document).ready( function(){
       })
       $('#main-area').empty().append(outer_folder)
       GLOBALS.current_parent = new_parent
+      window.history.pushState({}, '', GLOBALS.current_parent)
     })
   }
 
@@ -86,7 +81,7 @@ $(document).ready( function(){
   var main = function() {
     /* Home screen shows the contents of the user's root directory
      */
-    populate('/')
+    populate(GLOBALS.start_node)
   }
   main()
 

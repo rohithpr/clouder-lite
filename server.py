@@ -4,12 +4,10 @@ import helpers
 from random import random
 
 CONTENT_FOLDER = os.getcwd() + '/content/'
-print(CONTENT_FOLDER)
 LEN_CONTENT_FOLDER = len(CONTENT_FOLDER) - 1
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = CONTENT_FOLDER
-print(app.config['UPLOAD_FOLDER'])
 
 
 @app.route('/dl/<path:filename>')
@@ -33,7 +31,7 @@ def api(name):
             'clean': True,
             'parent': parent,
         }
-##    tree[os.sep]['files'].remove('.do-not-delete-this-file')
+    tree[os.sep]['files'].remove('.do-not-delete-this-file')
     return jsonify(tree)
 
 @app.route('/c/<path:path>', methods=['GET', 'POST'])
@@ -47,9 +45,17 @@ def content_file(path):
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     return render_template('index.html')
 
-@app.route('/')
-def home():
-    return render_template('home.html')
+@app.route('/', defaults = {'path': '/'})
+@app.route('/<path:path>')
+def home(path):
+    if path[-1] == '/':
+        path = path[:-1]
+    if path != '/':
+        path = '/' + path
+    context = {
+        'initial': path,
+    }
+    return render_template('home.html', **context)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', threaded=True, debug=True)
