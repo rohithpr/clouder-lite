@@ -24,6 +24,8 @@ def api(name):
         path = path[:-1]
     tree = {}
     for (dirpath, directories, files) in os.walk(path):
+        if os.sep != '/':
+            dirpath = helpers.convert_to_forward_slashes(dirpath)
         name, parent = helpers.get_trunc_path(dirpath, LEN_CONTENT_FOLDER)
         tree[name] = {
             'directories': directories,
@@ -31,7 +33,7 @@ def api(name):
             'clean': True,
             'parent': parent,
         }
-    tree[os.sep]['files'].remove('.do-not-delete-this-file')
+    tree['/']['files'].remove('.do-not-delete-this-file')
     return jsonify(tree)
 
 @app.route('/c/<path:path>', methods=['GET', 'POST'])

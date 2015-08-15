@@ -30,3 +30,9 @@ def get_name(filename, existing):
             new_name += padding
     existing.append(new_name)
     return new_name
+
+def convert_to_forward_slashes(string):
+    return '/'.join(string.split('\\'))
+
+def convert_to_backward_slashes():
+    return '\\'.join(string.split('/'))
