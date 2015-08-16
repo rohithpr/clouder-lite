@@ -36,3 +36,12 @@ def convert_to_forward_slashes(string):
 
 def convert_to_backward_slashes():
     return '\\'.join(string.split('/'))
+
+def get_config():
+    config = {
+        'host':'0.0.0.0',
+        'port':80,
+        'threaded':True,
+        'debug':True,
+    }
+    return config

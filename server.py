@@ -60,4 +60,5 @@ def home(path):
     return render_template('home.html', **context)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', threaded=True, debug=True)
+    config = helpers.get_config()
+    app.run(**config)
