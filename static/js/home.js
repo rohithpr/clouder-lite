@@ -35,7 +35,7 @@ $(document).ready( function(){
     var row = $('<div class="row"></div>')
     var icon = $('<div class="col-xs-1"><span class="glyphicon glyphicon-' + icon + '"></span></div>')
     var download_button = $('<div class="col-xs-1 downloader"><span class="glyphicon glyphicon-download"></span></div>')
-    var node_name = $('<div class="col-xs-9 col-sm-10"><div class="item-name">' + name + '</div></div>')
+    var node_name = $('<div class="col-xs-9 col-sm-10"><div class="item-name" file_name="' + name + '">' + name + '</div></div>')
     row.append(icon)
     row.append(node_name)
     row.append(download_button)
@@ -92,7 +92,7 @@ $(document).ready( function(){
   $(document).on('click', '.downloader', function(e){
     e.stopPropagation()
     var node = $(this).parent().parent()
-    var selected = $(node).find('.item-name').html()
+    var selected = $(node).find('.item-name').attr('file_name')
     var type = $(node).attr('type')
     // console.log(type)
     get_tree(function(tree) {
