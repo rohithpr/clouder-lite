@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, redirect, url_for, render_template, send_from_directory
 from random import random
 
+import html
 import helpers
 import os
 import sys
@@ -15,6 +16,7 @@ app.config['UPLOAD_FOLDER'] = CONTENT_FOLDER
 
 @app.route('/dl/<path:filename>')
 def file_transfer(filename):
+    filename = html.unescape(filename)
     return send_from_directory(CONTENT_FOLDER, filename, as_attachment=True)
 
 @app.route('/api/get_tree/<path:name>')
