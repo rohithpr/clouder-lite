@@ -1,5 +1,7 @@
 from werkzeug import secure_filename
+
 import os
+import config
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'mp4'])
 
@@ -37,11 +39,9 @@ def convert_to_forward_slashes(string):
 def convert_to_backward_slashes():
     return '\\'.join(string.split('/'))
 
-def get_config():
-    config = {
-        'host':'0.0.0.0',
-        'port':80,
-        'threaded':True,
-        'debug':True,
-    }
-    return config
+def get_config(args):
+    if len(args) > 1:
+        configuration = config.configurations[args[1]]
+    else:
+        configuration = config.configurations['default']
+    return configuration
