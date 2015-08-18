@@ -16,11 +16,17 @@ app.config['UPLOAD_FOLDER'] = CONTENT_FOLDER
 @app.route('/dl/<path:filename>') # Legacy support, remove this in the future
 @app.route('/download/<path:filename>')
 def file_transfer(filename):
+    """
+    Used for downloading files to client
+    """
     filename = html.unescape(filename)
     return send_from_directory(CONTENT_FOLDER, filename, as_attachment=True)
 
 @app.route('/api/get_tree/<path:name>')
 def api(name):
+    """
+    Returns the tree of the CONTENT_FOLDER
+    """
     if name == 'root':
         path = app.config['UPLOAD_FOLDER']
     else:
@@ -44,6 +50,9 @@ def api(name):
 @app.route('/c/<path:path>', methods=['GET', 'POST']) # Legacy support, remove this in the future
 @app.route('/upload/<path:path>', methods=['GET', 'POST'])
 def content_file(path):
+    """
+    Used for uploading files
+    """
     path = helpers.convert_to_os_slashes(path)
     if request.method == 'POST':
         files = request.files.getlist('files')
@@ -57,6 +66,9 @@ def content_file(path):
 @app.route('/', defaults = {'path': '/'})
 @app.route('/<path:path>')
 def home(path):
+    """
+    The homepage
+    """
     if path[-1] == '/':
         path = path[:-1]
     if path != '/':

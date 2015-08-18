@@ -7,6 +7,9 @@ import config
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'mp4'])
 
 def get_trunc_path(name, len_strip):
+    """
+    Returns the names of the file/folder and it's parent
+    """
     name = name[len_strip:]
     if name == '':
         name = os.sep
@@ -16,10 +19,16 @@ def get_trunc_path(name, len_strip):
     return name, parent
 
 def is_allowed_file(filename):
+    """
+    Can be used to specify the file types that can be uploaded
+    """
     return True # Allow all files?
     # return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 def get_name(filename, existing):
+    """
+    Returns a processed name that is secure and doesn't cause any conflict
+    """
     filename = secure_filename(filename)
     new_name = filename
     while new_name in existing:
@@ -41,6 +50,9 @@ def convert_to_backward_slashes(string):
     return '\\'.join(string.split('/'))
 
 def convert_to_os_slashes(string):
+    """
+    Converts separators to os.sep
+    """
     if os.sep == '/':
         return string
         # return convert_to_forward_slashes(string)
@@ -48,12 +60,18 @@ def convert_to_os_slashes(string):
         return convert_to_backward_slashes(string)
 
 def convert_to_web_slashes(string):
+    """
+    Converts separators to /
+    """
     if os.sep == '/':
         return string
     else:
         return convert_to_forward_slashes(string)
 
 def get_config(args):
+    """
+    Loads configurations from config.py
+    """
     if len(args) > 1:
         configuration = config.configurations[args[1]]
     else:
