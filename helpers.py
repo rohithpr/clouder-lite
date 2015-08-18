@@ -1,3 +1,4 @@
+from random import random
 from werkzeug import secure_filename
 
 import os
@@ -36,8 +37,21 @@ def get_name(filename, existing):
 def convert_to_forward_slashes(string):
     return '/'.join(string.split('\\'))
 
-def convert_to_backward_slashes():
+def convert_to_backward_slashes(string):
     return '\\'.join(string.split('/'))
+
+def convert_to_os_slashes(string):
+    if os.sep == '/':
+        return string
+        # return convert_to_forward_slashes(string)
+    else:
+        return convert_to_backward_slashes(string)
+
+def convert_to_web_slashes(string):
+    if os.sep == '/':
+        return string
+    else:
+        return convert_to_forward_slashes(string)
 
 def get_config(args):
     if len(args) > 1:

@@ -48,6 +48,7 @@ $(document).ready( function(){
    */
   var populate = function(new_parent) {
     get_tree(function(tree) {
+      console.log(tree)
       // Special links
       var outer_folder = $('<div></div>')
       create_thumbnail('Move up', 'level-up', 'parent', outer_folder)

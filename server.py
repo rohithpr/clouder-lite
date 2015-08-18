@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify, redirect, url_for, render_template, send_from_directory
-from random import random
 
 import html
 import helpers
@@ -14,7 +13,8 @@ LEN_CONTENT_FOLDER = len(CONTENT_FOLDER) - 1
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = CONTENT_FOLDER
 
-@app.route('/dl/<path:filename>')
+@app.route('/dl/<path:filename>') # Legacy support, remove this in the future
+@app.route('/download/<path:filename>')
 def file_transfer(filename):
     filename = html.unescape(filename)
     return send_from_directory(CONTENT_FOLDER, filename, as_attachment=True)
@@ -29,8 +29,7 @@ def api(name):
         path = path[:-1]
     tree = {}
     for (dirpath, directories, files) in os.walk(path):
-        if os.sep != '/':
-            dirpath = helpers.convert_to_forward_slashes(dirpath)
+        dirpath = helpers.convert_to_web_slashes(dirpath)
         name, parent = helpers.get_trunc_path(dirpath, LEN_CONTENT_FOLDER)
         tree[name] = {
             'directories': directories,
@@ -42,15 +41,17 @@ def api(name):
         tree['/']['files'].remove('.do-not-delete-this-file')
     return jsonify(tree)
 
-@app.route('/c/<path:path>', methods=['GET', 'POST'])
+@app.route('/c/<path:path>', methods=['GET', 'POST']) # Legacy support, remove this in the future
+@app.route('/upload/<path:path>', methods=['GET', 'POST'])
 def content_file(path):
+    path = helpers.convert_to_os_slashes(path)
     if request.method == 'POST':
         files = request.files.getlist('files')
-        filenames = [_ for _ in os.listdir('./content')]
+        filenames = [_ for _ in os.listdir(os.path.join('.', 'content', path ))]
         for file in files:
             if file and helpers.is_allowed_file(file.filename):
                 filename = helpers.get_name(file.filename, filenames)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], path, filename))
     return render_template('index.html')
 
 @app.route('/', defaults = {'path': '/'})
