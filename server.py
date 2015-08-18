@@ -4,12 +4,10 @@ import helpers
 from random import random
 
 CONTENT_FOLDER = os.getcwd() + '/content/'
-print(CONTENT_FOLDER)
 LEN_CONTENT_FOLDER = len(CONTENT_FOLDER) - 1
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = CONTENT_FOLDER
-print(app.config['UPLOAD_FOLDER'])
 
 
 @app.route('/dl/<path:filename>')
