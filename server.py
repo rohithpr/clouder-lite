@@ -5,13 +5,13 @@ import helpers
 import os
 import sys
 
-config = helpers.get_config(sys.argv)
+config = helpers.get_config(sys.argv)               # Load settings from config.py
 
-CONTENT_FOLDER = config['app']['content_folder']
+CONTENT_FOLDER = config['app']['content_folder']    # The folder where UL/DL happen
 LEN_CONTENT_FOLDER = len(CONTENT_FOLDER) - 1
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = CONTENT_FOLDER
+app.config['UPLOAD_FOLDER'] = CONTENT_FOLDER        # Tell flask that this is where all uploads are supposed to go
 
 @app.route('/dl/<path:filename>') # Legacy support, remove this in the future
 @app.route('/download/<path:filename>')
@@ -19,8 +19,8 @@ def file_transfer(filename):
     """
     Used for downloading files to client
     """
-    filename = html.unescape(filename)
-    return send_from_directory(CONTENT_FOLDER, filename, as_attachment=True)
+    filename = html.unescape(filename)              # Convert HTML sequences to their characters &amp; -> &
+    return send_from_directory(CONTENT_FOLDER, filename, as_attachment=True) # Send file to client
 
 @app.route('/api/get_tree/<path:name>')
 def api(name):
@@ -48,12 +48,17 @@ def api(name):
     return jsonify(tree)
 
 @app.route('/c/<path:path>', methods=['GET', 'POST']) # Legacy support, remove this in the future
-@app.route('/upload/<path:path>', methods=['GET', 'POST'])
+def show_upload_form(path):
+    """
+    Serve a form to test file uploads.
+    """
+    return render_template('index.html')
+
+@app.route('/upload/<path:path>', methods=['POST'])
 def content_file(path):
     """
-    Used for uploading files
+    End point to upload files. Upload files asynchronously.
     """
-    path = helpers.convert_to_os_slashes(path)
     if request.method == 'POST':
         files = request.files.getlist('files')
         filenames = [_ for _ in os.listdir(os.path.join('.', 'content', path ))]
@@ -61,7 +66,7 @@ def content_file(path):
             if file and helpers.is_allowed_file(file.filename):
                 filename = helpers.get_name(file.filename, filenames)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], path, filename))
-    return render_template('index.html')
+    return jsonify({'status': 'success'})
 
 @app.route('/', defaults = {'path': '/'})
 @app.route('/<path:path>')
