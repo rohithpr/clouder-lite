@@ -54,11 +54,12 @@ def show_upload_form(path):
     """
     return render_template('index.html')
 
-@app.route('/upload/<path:path>', methods=['POST'])
-def content_file(path):
+@app.route('/upload', methods=['POST'])
+def upload_handler():
     """
     End point to upload files. Upload files asynchronously.
     """
+    path = request.form.get('path') or ''
     if request.method == 'POST':
         files = request.files.getlist('files')
         filenames = [_ for _ in os.listdir(os.path.join('.', 'content', path ))]
