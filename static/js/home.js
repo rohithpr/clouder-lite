@@ -20,7 +20,10 @@ $(document).ready( function(){
           callback(GLOBALS.tree)
         },
         error: function(xhr, textStatus, errorThrown){
-          alert('Something went wrong! Please report the error message displayed in the console.')
+          error_message = 'Error code: 1\n'
+          error_message += 'Check if the content folder exists in the location specified by config.py\n'
+          error_message += 'Please report the error if the above steps don\'t help'
+          alert(error_message)
           console.log(xhr, textStatus, errorThrown)
         }
       })
@@ -106,7 +109,9 @@ $(document).ready( function(){
         window.location.href = '/download_file' + file_path
       }
       else {
-        alert('Something went wrong on clicking this icon! Please report it.')
+        error_message = 'Error code: 2.\n'
+        error_message += 'Something went wrong on clicking this icon! Please report it.'
+        alert(error_message)
       }
     })
   })
@@ -137,7 +142,9 @@ $(document).ready( function(){
         populate(new_parent)
       }
       else {
-        alert('Something went wrong on clicking this icon! Please report it.')
+        error_message = 'Error code: 3.\n'
+        error_message += 'Something went wrong on clicking this icon! Please report it.'
+        alert(error_message)
       }
     })
   })
