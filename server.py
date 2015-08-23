@@ -5,7 +5,7 @@ import html
 import helpers
 import os
 import sys
-
+mynode = ""
 config = helpers.get_config(sys.argv)               # Load settings from config.py
 
 CONTENT_FOLDER = config['app']['content_folder']    # The folder where UL/DL happen
@@ -73,6 +73,7 @@ def upload_handler():
 @app.route('/', defaults = {'path': '/'})
 @app.route('/<path:path>')
 def home(path):
+   
     """
     The homepage
     """

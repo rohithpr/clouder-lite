@@ -1,3 +1,4 @@
+var new_parent=undefined//made global 
 $(document).ready( function(){
   /* Fetches the entire tree 
    */
@@ -30,7 +31,7 @@ $(document).ready( function(){
   /* Creates the thumbnail that holds the icons
    */
   var create_thumbnail = function(name, icon, type, outer_folder) {
-    // console.log(name, icon, type, outer_folder)
+    //console.log(name, icon, type, outer_folder)
     var node = $('<div class="col-xs-12 node" type="' + type + '"></div>')
     var row = $('<div class="row"></div>')
     var icon = $('<div class="col-xs-1"><span class="glyphicon glyphicon-' + icon + '"></span></div>')
@@ -71,18 +72,34 @@ $(document).ready( function(){
   }
 
   var generate_new_path = function(selected) {
-    var new_parent = GLOBALS.current_parent
+    new_parent = GLOBALS.current_parent
     if (new_parent[new_parent.length - 1] != '/') {
       new_parent += '/'
     }
     new_parent += selected
+    //alert(node_name)
     return new_parent
   }
+ 
+ 
+  
+ 
+
 
   var main = function() {
     /* Home screen shows the contents of the user's root directory
      */
+     // document.write(GLOBALS.current_parent)
     populate(GLOBALS.start_node)
+   $('#secondary-area').empty().append("<h4>Select files to be uploaded</h4>\
+         <br/>\
+          <form id='upload-form' method='post' enctype='multipart/form-data'>\
+          <p><input type='file' multiple='' name='files' id='files'></p>\
+          <p><input type='button' id='upload-file-btn' value='Upload'/></p>\
+        </form>\
+        ")
+
+
   }
   main()
 
@@ -114,17 +131,18 @@ $(document).ready( function(){
 
   /* Changes directory
    */
+
   $(document).on('click', '.node', function(e){
     var node = $(this) //.parent().parent()
     var selected = $(node).find('.item-name').html()
     var type = $(node).attr('type')
-    // console.log(type)
     get_tree(function(tree) {
       if (type === 'directory') {
         var new_parent = generate_new_path(selected)
-        // console.log(new_parent)
         populate(new_parent)
-      }
+        //..................added code.............................................
+        //..........................................................................    
+        }
       else if (type === 'file') {
         // var file_path = generate_new_path(selected)
         // window.location.href = '/dl' + file_path
@@ -143,3 +161,39 @@ $(document).ready( function(){
     })
   })
 })
+
+//.......Event to upload to particular directory..................
+ 
+//new_parent = ''
+//
+ //});
+
+$(document).on('click','#upload-file-btn',function(e){
+  var n = new_parent
+  //alert(n)
+ var form_data = new FormData($('#upload-form')[0])
+        if(n[0] == '/')
+        n = new_parent.slice(1,(n.length))
+        form_data.append('path',n)
+          console.log('Starting upload')
+          $.ajax({
+              type: 'POST',
+              url: '/upload',
+              data: form_data,
+              contentType: false,
+              processData: false,
+              success: function(response) {
+                console.log(response)
+              },
+
+              error: function() {
+                console.log('Error uploading file.')
+              }
+          });
+      });
+ 
+
+
+
+
+ 
