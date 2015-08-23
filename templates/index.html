@@ -27,7 +27,7 @@
   $(function() {
       $('#upload-file-btn').click(function() {
           var form_data = new FormData($('#upload-form')[0])
-          form_data.append('path', 'test_folder_2/')
+          form_data.append('path','')
           console.log('Starting upload')
           $.ajax({
               type: 'POST',

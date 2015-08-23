@@ -1,11 +1,12 @@
 from flask import Flask, request, jsonify, redirect, url_for, render_template, send_from_directory
 
+
 import html
 import helpers
 import os
 import shutil
 import sys
-
+mynode = ""
 config = helpers.get_config(sys.argv)               # Load settings from config.py
 
 CONTENT_FOLDER = config['app']['content_folder']    # The folder where UL/DL happen
@@ -90,6 +91,7 @@ def upload_handler():
 @app.route('/', defaults = {'path': '/'})
 @app.route('/<path:path>')
 def home(path):
+   
     """
     The homepage
     """
