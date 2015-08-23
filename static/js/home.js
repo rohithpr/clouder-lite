@@ -1,4 +1,3 @@
-var new_parent=undefined//made global 
 $(document).ready( function(){
   /* Fetches the entire tree 
    */
@@ -75,7 +74,7 @@ $(document).ready( function(){
   }
 
   var generate_new_path = function(selected) {
-    new_parent = GLOBALS.current_parent
+    var new_parent = GLOBALS.current_parent
     if (new_parent[new_parent.length - 1] != '/') {
       new_parent += '/'
     }
@@ -84,25 +83,11 @@ $(document).ready( function(){
     return new_parent
   }
  
- 
-  
- 
-
-
   var main = function() {
     /* Home screen shows the contents of the user's root directory
      */
      // document.write(GLOBALS.current_parent)
     populate(GLOBALS.start_node)
-   $('#secondary-area').empty().append("<h4>Select files to be uploaded</h4>\
-         <br/>\
-          <form id='upload-form' method='post' enctype='multipart/form-data'>\
-          <p><input type='file' multiple='' name='files' id='files'></p>\
-          <p><input type='button' id='upload-file-btn' value='Upload'/></p>\
-        </form>\
-        ")
-
-
   }
   main()
 
@@ -143,9 +128,7 @@ $(document).ready( function(){
     get_tree(function(tree) {
       if (type === 'directory') {
         var new_parent = generate_new_path(selected)
-        populate(new_parent)
-        //..................added code.............................................
-        //..........................................................................    
+        populate(new_parent)    
         }
       else if (type === 'file') {
         // var file_path = generate_new_path(selected)
@@ -169,18 +152,12 @@ $(document).ready( function(){
 })
 
 //.......Event to upload to particular directory..................
- 
-//new_parent = ''
-//
- //});
-
 $(document).on('click','#upload-file-btn',function(e){
-  var n = new_parent
-  //alert(n)
- var form_data = new FormData($('#upload-form')[0])
-        if(n[0] == '/')
-        n = new_parent.slice(1,(n.length))
-        form_data.append('path',n)
+          var n = GLOBALS.current_parent
+          var form_data = new FormData($('#upload-form')[0])
+          if(n[0] == '/')
+                n = n.slice(1,(n.length)) 
+          form_data.append('path',n)
           console.log('Starting upload')
           $.ajax({
               type: 'POST',
