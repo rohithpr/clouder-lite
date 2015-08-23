@@ -98,13 +98,12 @@ $(document).ready( function(){
     // console.log(type)
     get_tree(function(tree) {
       if (type === 'directory') {
-        // Add a method to download entire directories, see issue #
-        // var new_parent = generate_new_path(selected)
-        // console.log(new_parent)
+        var dir_path = generate_new_path(selected)
+        window.location.href = '/download_directory' + dir_path
       }
       else if (type === 'file') {
         var file_path = generate_new_path(selected)
-        window.location.href = '/dl' + file_path
+        window.location.href = '/download_file' + file_path
       }
       else {
         alert('Something went wrong on clicking this icon! Please report it.')
