@@ -81,7 +81,7 @@ def upload_handler():
     path = request.form.get('path') or ''
     if request.method == 'POST':
         files = request.files.getlist('files')
-        filenames = [_ for _ in os.listdir(os.path.join('.', 'content', path ))]
+        filenames = [_ for _ in os.listdir(os.path.join(CONTENT_FOLDER, path ))]
         for file in files:
             if file and helpers.is_allowed_file(file.filename):
                 filename = helpers.get_name(file.filename, filenames)
