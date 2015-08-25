@@ -58,6 +58,6 @@ target/
 
 venv
 content/*
-static/zip/*
+zip/*
 
 *python*

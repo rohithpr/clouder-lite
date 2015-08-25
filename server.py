@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify, redirect, url_for, render_template, send_from_directory
 
-
 import html
 import helpers
 import os
@@ -37,9 +36,30 @@ def download_directory(dirname):
     else:
         end_name = dirname
     dirname = os.path.join(CONTENT_FOLDER, dirname)
-    output_name = 'static/zip/' + end_name
-    shutil.make_archive(output_name, 'zip', dirname)
-    return send_from_directory('static/zip/', end_name + '.zip', as_attachment=True)
+    output_name = 'zip/' + end_name
+    try:
+        # print('Checking for existing')
+        open(output_name + '.zip', 'rb')
+        # print('Deleting')
+        os.remove(output_name + '.zip')
+        # print('Deleted')
+    except:
+        # print('e')
+        pass
+    print(output_name, dirname)
+    idx = 0
+    while idx < 5:
+        zip_file = shutil.make_archive(output_name, 'zip', dirname)
+        try:
+            open(zip_file)
+            break
+        except:
+            idx += 1
+            # print('Retrying', idx)
+    else:
+        return jsonify({'error': True, 'status': 'Could not make archive'})
+    print('\n\n\n\n\n\nZip filename:', zip_file, '\n\n\n\n\n\n')
+    return send_from_directory('zip/', end_name + '.zip', as_attachment=True)
 
 @app.route('/api/get_tree/<path:name>')
 def api(name):
