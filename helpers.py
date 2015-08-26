@@ -1,8 +1,9 @@
 from random import random
 from werkzeug import secure_filename
 
-import os
 import config
+import os
+import zipfile
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'mp4'])
 
@@ -77,3 +78,10 @@ def get_config(args):
     else:
         configuration = config.configurations['default']
     return configuration
+
+def create_zip_file(source, destination):
+    zipf = zipfile.ZipFile(destination, 'w')
+    for root, dirs, files in os.walk(source):
+        for file in files:
+            zipf.write(os.path.join(root, file))
+    zipf.close()

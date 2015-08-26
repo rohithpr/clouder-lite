@@ -3,7 +3,6 @@ from flask import Flask, request, jsonify, redirect, url_for, render_template, s
 import html
 import helpers
 import os
-import shutil
 import sys
 mynode = ""
 config = helpers.get_config(sys.argv)               # Load settings from config.py
@@ -30,36 +29,37 @@ def download_directory(dirname):
     """
     dirname = html.unescape(dirname)
     if dirname[-1] == '/':
-        end_name = dirname.split('/')[-2]
-    elif '/' in dirname:
+        dirname = dirname[:-1]
+    if '/' in dirname:
         end_name = dirname.split('/')[-1]
     else:
         end_name = dirname
     dirname = os.path.join(CONTENT_FOLDER, dirname)
     output_name = 'zip/' + end_name
-    try:
-        # print('Checking for existing')
-        open(output_name + '.zip', 'rb')
-        # print('Deleting')
-        os.remove(output_name + '.zip')
-        # print('Deleted')
-    except:
-        # print('e')
-        pass
-    print(output_name, dirname)
-    idx = 0
-    while idx < 5:
-        zip_file = shutil.make_archive(output_name, 'zip', dirname)
-        try:
-            open(zip_file)
-            break
-        except:
-            idx += 1
-            # print('Retrying', idx)
-    else:
-        return jsonify({'error': True, 'status': 'Could not make archive'})
-    print('\n\n\n\n\n\nZip filename:', zip_file, '\n\n\n\n\n\n')
+    helpers.create_zip_file(dirname, output_name + '.zip')
     return send_from_directory('zip/', end_name + '.zip', as_attachment=True)
+    # try:
+    #     # print('Checking for existing')
+    #     open(output_name + '.zip', 'rb')
+    #     # print('Deleting')
+    #     os.remove(output_name + '.zip')
+    #     # print('Deleted')
+    # except:
+    #     # print('e')
+    #     pass
+    # print(output_name, dirname)
+    # idx = 0
+    # while idx < 5:
+    #     helpers.create_zip_file(dirname, output_name + '.zip')
+    #     try:
+    #         open(output_name + '.zip')
+    #         return send_from_directory('zip/', end_name + '.zip', as_attachment=True)
+    #         break
+    #     except:
+    #         idx += 1
+    #         print('Retrying', idx)
+    # print('\n\n\n\n\n\nZip filename:', zip_file, '\n\n\n\n\n\n')
+    # return jsonify({'error': True, 'status': 'Could not make archive'})
 
 @app.route('/api/get_tree/<path:name>')
 def api(name):
