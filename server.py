@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, redirect, url_for, render_template, send_from_directory
+from werkzeug import secure_filename
 
 import html
 import helpers
@@ -37,7 +38,7 @@ def download_directory(dirname):
     dirname = os.path.join(CONTENT_FOLDER, dirname)
     output_name = 'zip/' + end_name
     helpers.create_zip_file(dirname, output_name + '.zip')
-    return send_from_directory('zip/', end_name + '.zip', as_attachment=True)
+    return send_from_directory(os.getcwd() + '/zip/', end_name + '.zip', as_attachment=True)
     # try:
     #     # print('Checking for existing')
     #     open(output_name + '.zip', 'rb')
@@ -62,7 +63,7 @@ def download_directory(dirname):
     # return jsonify({'error': True, 'status': 'Could not make archive'})
 
 @app.route('/api/get_tree/<path:name>')
-def api(name):
+def tree_api(name):
     """
     Returns the tree of the CONTENT_FOLDER
     """
@@ -85,6 +86,32 @@ def api(name):
     if '.do-not-delete-this-file' in tree['/']['files']:
         tree['/']['files'].remove('.do-not-delete-this-file')
     return jsonify(tree)
+
+@app.route('/api/add_directory', methods=['POST'])
+def add_directory():
+    """
+    End point to create a new directory.
+    Name of the new directory and the directory under which it should be created
+    must be sent via POST.
+    Required arguments: parent, name
+    """
+    if request.method != 'POST':
+        return helpers.generate_error('2')
+    name = request.form.get('name')
+    parent = request.form.get('parent')
+
+    # Clean the names received from client
+    name = secure_filename(name)
+    parent = secure_filename(parent)
+    parent = helpers.convert_to_os_slashes(parent)
+    parent = os.path.join(CONTENT_FOLDER, parent)
+
+    # Do not overwrite if directory exists
+    if name in next(os.walk(parent))[1]:
+        return helpers.generate_error('3', 'Directory of that name already exists.')
+    name = os.path.join(parent, name)
+    os.makedirs(name)
+    return helpers.generate_error('0', 'Directory created.')
 
 @app.route('/c/<path:path>', methods=['GET', 'POST']) # Legacy support, remove this in the future
 def show_upload_form(path):
@@ -111,7 +138,6 @@ def upload_handler():
 @app.route('/', defaults = {'path': '/'})
 @app.route('/<path:path>')
 def home(path):
-   
     """
     The homepage
     """

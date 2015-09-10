@@ -1,3 +1,5 @@
+from errorcodes import errorcodes
+from flask import jsonify
 from random import random
 from werkzeug import secure_filename
 
@@ -85,3 +87,14 @@ def create_zip_file(source, destination):
         for file in files:
             zipf.write(os.path.join(root, file))
     zipf.close()
+
+def generate_error(code, comment=''):
+    try:
+        data = {
+            'error_code': code,
+            'error': errorcodes[code],
+            'comment': comment,
+        }
+    except:
+        data = generate_error('1', 'Invalid error code specified.')
+    return jsonify(data)
