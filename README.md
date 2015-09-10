@@ -6,14 +6,14 @@ Transfer files at speeds greater than that offfered by Bluetooth or even USB.
 
 ## Contents
 * [Support](#support)
-* [Setup](https://github.com/rohithpr/clouder-lite#setup)
-* [Usage](https://github.com/rohithpr/clouder-lite#usage)
+* [Setup](#setup)
+* [Usage](#usage)
 
 ### Support
 
-Should work on all devices. It's a website, not an app!
+Works on all devices. It's a website, not an app! Let us know if there is as issue.
 
-#### Note: Some phone browsers (such as UC browser on Windows Phone) do not support selecting multiple files for upload at once; use browsers that do support it!
+###### Note: Some phone browsers (such as UC browser on Windows Phone) do not support selecting multiple files for upload at once; use browsers that do support it!
 
 ### Setup
 
@@ -22,7 +22,7 @@ Should work on all devices. It's a website, not an app!
 * Create a virtual environment (Py3) and install all the dependencies mentioned in requirements.txt
 * Activate the venv and run `python3 server.py`
 * You can now access the said server from a phone by knowing the machine's inet address
- * `ifconfig` will help you find the inet address
+ * `ifconfig` or `ipconfig` will help you find the inet address
 
 #### Advanced
 
