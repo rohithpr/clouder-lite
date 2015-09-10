@@ -121,8 +121,11 @@ def home(path):
         path = '/' + path
     context = {
         'initial': path,
+        'img' : img,
     }
     return render_template('home.html', **context)
 
 if __name__ == '__main__':
     app.run(**config['flask'])
+   
+
