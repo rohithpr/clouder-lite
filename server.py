@@ -150,12 +150,8 @@ def home(path):
     }
     return render_template('home.html', **context)
 
-             
-    
-
 if __name__ == '__main__':
     helpers.qrcodeee(config)
-   
     app.run(**config['flask'])
    
 
