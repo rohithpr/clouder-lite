@@ -2,6 +2,9 @@ from errorcodes import errorcodes
 from flask import jsonify
 from random import random
 from werkzeug import secure_filename
+import json
+import qrcode
+import requests
 
 import config
 import os
@@ -98,3 +101,13 @@ def generate_error(code, comment=''):
     except:
         data = generate_error('1', 'Invalid error code specified.')
     return jsonify(data)
+
+
+def qrcodeee(config):
+    ipadress = requests.get("http://my-ip.herokuapp.com/").json()["ip"]
+    ip = "http://"+ipadress+":"+str(config['flask']['port'])
+    qr = qrcode.QRCode()
+    qr.add_data(ip)
+    qr.make(fit=True)
+    img = qr.make_image()
+    img.save("static/img/qrcodeip","png")
