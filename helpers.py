@@ -1,12 +1,11 @@
 from errorcodes import errorcodes
 from flask import jsonify
 from random import random
-from werkzeug import secure_filename
-import requests,re,json
+import json
 import qrcode
-from qrcode import constants, exceptions, util
-from qrcode.image.base import BaseImage
+import requests
 
+from werkzeug import secure_filename
 
 import config
 import os
