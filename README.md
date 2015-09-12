@@ -7,7 +7,6 @@ Transfer files at speeds greater than that offfered by Bluetooth or even USB.
 ## Contents
 * [Support](#support)
 * [Setup](#setup)
-* [Usage](#usage)
 
 ### Support
 

@@ -22,7 +22,10 @@ configurations = {
       'debug': True, # Change this to False in the future
     },
     'app': {
-      'content_folder': getcwd() + '/content/'
+      'content_folder': getcwd() + '/content/',
+      'qr_code_external': True,
+      'qr_code_internal': True,
+      'interface': 'wlan0',
     },
   },
 
@@ -34,7 +37,10 @@ configurations = {
       'debug': True,
     },
     'app': {
-      'content_folder': getcwd() + '/content/'
+      'content_folder': getcwd() + '/content/',
+      'qr_code_external': True,
+      'qr_code_internal': True,
+      'interface': 'wlan0',
     },
   },
 
@@ -46,7 +52,10 @@ configurations = {
       'debug': False,
     },
     'app': {
-      'content_folder': getcwd() + '/content/'
+      'content_folder': getcwd() + '/content/',
+      'qr_code_external': True,
+      'qr_code_internal': True,
+      'interface': 'wlan0',
     },
   },
 }

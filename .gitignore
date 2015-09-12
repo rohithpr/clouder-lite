@@ -56,8 +56,10 @@ docs/_build/
 # PyBuilder
 target/
 
+# Project specific
+*python*
 venv
 content/*
 zip/*
-static/img/*
-*python*
+static/img/external_address.png
+static/img/internal_address.png
