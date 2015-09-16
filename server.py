@@ -1,10 +1,11 @@
 from flask import Flask, request, jsonify, redirect, url_for, render_template, send_from_directory
 from werkzeug import secure_filename
 
-import html
 import helpers
+import html
 import os
 import sys
+
 mynode = ""
 config = helpers.get_config(sys.argv)               # Load settings from config.py
 
