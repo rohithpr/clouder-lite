@@ -26,6 +26,7 @@ configurations = {
       'qr_code_external': True,
       'qr_code_internal': True,
       'interface': 'wlan0',
+      'theme': 'default',
     },
   },
 
@@ -41,6 +42,7 @@ configurations = {
       'qr_code_external': False,
       'qr_code_internal': False,
       'interface': 'wlan0',
+      'theme': 'default',
     },
   },
 
@@ -56,6 +58,24 @@ configurations = {
       'qr_code_external': True,
       'qr_code_internal': True,
       'interface': 'wlan0',
+      'theme': 'default',
+    },
+  },
+
+  'me': {
+    'flask': {
+      'host': '0.0.0.0',
+      'port': 9001,
+      'threaded': True,
+      'debug': False,
+    },
+    'app': {
+      'content_folder': '/home/rpr/code/clouder-lite/content/',
+      # 'content_folder': '/home/rpr/Downloads/'
+      'qr_code_external': False,
+      'qr_code_internal': False,
+      'interface': 'wlan0',
+      'theme': 'default',
     },
   },
 }

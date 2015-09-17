@@ -7,9 +7,9 @@ import os
 import sys
 
 mynode = ""
-config = helpers.get_config(sys.argv)               # Load settings from config.py
+CONFIGURATION = helpers.get_config(sys.argv)               # Load settings from config.py
 
-CONTENT_FOLDER = config['app']['content_folder']    # The folder where UL/DL happen
+CONTENT_FOLDER = CONFIGURATION['app']['content_folder']    # The folder where UL/DL happen
 LEN_CONTENT_FOLDER = len(CONTENT_FOLDER) - 1
 
 app = Flask(__name__)
@@ -149,8 +149,9 @@ def home(path):
     context = {
         'initial': path,
     }
-    return render_template('home.html', **context)
+    homepage = CONFIGURATION['app']['theme'] + '.html'
+    return render_template(homepage, **context)
 
 if __name__ == '__main__':
-    helpers.generate_qr_codes(config)
-    app.run(**config['flask'])
+    helpers.generate_qr_codes(CONFIGURATION)
+    app.run(**CONFIGURATION['flask'])

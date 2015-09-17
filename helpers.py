@@ -125,7 +125,7 @@ def generate_qr_code_external(config):
     try:
         address = requests.get('http://my-ip.herokuapp.com/').json()['ip']
         address = 'http://' + address + ':' + str(config['flask']['port'])
-        generate_qr_code_image(address, 'static/img/external_address.png', 'png')
+        generate_qr_code_image(address, 'static/default/img/external_address.png', 'png')
     except:
         print('Failed to generate QR Code for external address')
 
@@ -136,7 +136,7 @@ def generate_qr_code_internal(config):
     try:
         interface = config['app']['interface']
         address = netifaces.ifaddresses(interface)[2][0]['addr']
-        generate_qr_code_image(address, 'static/img/internal_address.png', 'png')
+        generate_qr_code_image(address, 'static/default/img/internal_address.png', 'png')
     except:
         print('Failed to generate QR Code for internal address')
 
