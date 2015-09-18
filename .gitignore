@@ -61,5 +61,5 @@ target/
 venv
 content/*
 zip/*
-static/img/external_address.png
-static/img/internal_address.png
+static/*/img/external_address.png
+static/*/img/internal_address.png

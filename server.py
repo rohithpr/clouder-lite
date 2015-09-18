@@ -137,17 +137,17 @@ def upload_handler():
     return jsonify({'status': 'success'})
 
 @app.route('/', defaults = {'path': '/'})
-@app.route('/<path:path>')
-def home(path):
+@app.route('/<path:initial_path>')
+def home(initial_path):
     """
     The homepage
     """
-    if path[-1] == '/':
-        path = path[:-1]
-    if path != '/':
-        path = '/' + path
+    if initial_path[-1] == '/':
+        initial_path = initial_path[:-1]
+    if initial_path != '/':
+        initial_path = '/' + initial_path
     context = {
-        'initial': path,
+        'initial_path': initial_path,
     }
     homepage = CONFIGURATION['app']['theme'] + '.html'
     return render_template(homepage, **context)
