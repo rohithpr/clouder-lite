@@ -51,7 +51,7 @@ $(document).ready( function(){
    */
   var populate = function(new_parent) {
     get_tree(function(tree) {
-      console.log(tree)
+      // console.log(tree)
       // Special links
       var outer_folder = $('<div></div>')
       create_thumbnail('Move up', 'level-up', 'parent', outer_folder)
@@ -69,7 +69,7 @@ $(document).ready( function(){
       })
       $('#main-area').empty().append(outer_folder)
       GLOBALS.current_parent = new_parent
-      window.history.pushState({}, '', GLOBALS.current_parent)
+      window.history.pushState({}, '', '/nav' + GLOBALS.current_parent)
     })
   }
 

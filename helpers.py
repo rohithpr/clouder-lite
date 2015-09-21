@@ -95,7 +95,7 @@ def create_zip_file(source, destination):
     zipf.close()
 
 def generate_error(code, comment=''):
-    """ (int, str) -> str
+    """ (int [, str]) -> str
     Generates a JSON with information about the error so that it can be conveyed to the client.
     """
     try:

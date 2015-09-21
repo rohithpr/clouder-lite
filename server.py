@@ -16,7 +16,8 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = CONTENT_FOLDER        # Tell flask that this is where all uploads are supposed to go
 
 @app.route('/dl/<path:filename>') # Legacy support, remove this in the future
-@app.route('/download_file/<path:filename>')
+@app.route('/download_file/<path:filename>') # Legacy support, remove this in the future
+@app.route('/api/download_file/<path:filename>')
 def download_file(filename):
     """
     Used for downloading files to client
@@ -24,7 +25,8 @@ def download_file(filename):
     filename = html.unescape(filename)              # Convert HTML sequences to their characters &amp; -> &
     return send_from_directory(CONTENT_FOLDER, filename, as_attachment=True) # Send file to client
 
-@app.route('/download_directory/<path:dirname>')
+@app.route('/download_directory/<path:dirname>') # Legacy support, remove this in the future
+@app.route('/api/download_directory/<path:dirname>')
 def download_directory(dirname):
     """
     Used for downloading entire directories
@@ -63,12 +65,13 @@ def download_directory(dirname):
     # print('\n\n\n\n\n\nZip filename:', zip_file, '\n\n\n\n\n\n')
     # return jsonify({'error': True, 'status': 'Could not make archive'})
 
-@app.route('/api/get_tree/<path:name>')
+@app.route('/api/get_tree/<path:name>', defaults = {'name': '/'})
 def tree_api(name):
     """
     Returns the tree of the CONTENT_FOLDER
     """
-    if name == 'root':
+    print('tree: ', name)
+    if name == '/':
         path = app.config['UPLOAD_FOLDER']
     else:
         path = os.path.join(app.config['UPLOAD_FOLDER'], name)
@@ -121,7 +124,8 @@ def show_upload_form(path):
     """
     return render_template('index.html')
 
-@app.route('/upload', methods=['POST'])
+@app.route('/upload', methods=['POST']) # Legacy support, remove this in the future
+@app.route('/api/upload_files', methods=['POST'])
 def upload_handler():
     """
     End point to upload files. Upload files asynchronously.
@@ -136,12 +140,22 @@ def upload_handler():
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], path, filename))
     return jsonify({'status': 'success'})
 
-@app.route('/', defaults = {'path': '/'})
+@app.route('/', defaults = {'initial_path': ''})
 @app.route('/<path:initial_path>')
+def redirect_to_home(initial_path):
+    """
+    Redirect to the endpoint /nav/initial_path.
+    """
+    print('Redirector: ', initial_path)
+    return redirect('/nav/' + initial_path)
+
+@app.route('/nav/', defaults = {'initial_path': '/'})
+@app.route('/nav/<path:initial_path>')
 def home(initial_path):
     """
-    The homepage
+    The homepage.
     """
+    print('Home init: ', initial_path)
     if initial_path[-1] == '/':
         initial_path = initial_path[:-1]
     if initial_path != '/':
@@ -149,6 +163,7 @@ def home(initial_path):
     context = {
         'initial_path': initial_path,
     }
+    print('Home new: ', initial_path)
     homepage = CONFIGURATION['app']['theme'] + '.html'
     return render_template(homepage, **context)
 
