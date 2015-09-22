@@ -6,7 +6,7 @@ $(document).ready( function(){
       callback(GLOBALS.tree)
     }
     else {
-      var node = '/api/get_tree/root'
+      var node = '/api/get_tree/'
       $.ajax({
         type: "GET",
         url: node,

@@ -65,7 +65,8 @@ def download_directory(dirname):
     # print('\n\n\n\n\n\nZip filename:', zip_file, '\n\n\n\n\n\n')
     # return jsonify({'error': True, 'status': 'Could not make archive'})
 
-@app.route('/api/get_tree/<path:name>', defaults = {'name': '/'})
+@app.route('/api/get_tree/', defaults = {'name': '/'})
+@app.route('/api/get_tree/<path:name>')
 def tree_api(name):
     """
     Returns the tree of the CONTENT_FOLDER
@@ -87,8 +88,11 @@ def tree_api(name):
             'clean': True,
             'parent': parent,
         }
-    if '.do-not-delete-this-file' in tree['/']['files']:
-        tree['/']['files'].remove('.do-not-delete-this-file')
+    try:
+        if '.do-not-delete-this-file' in tree['/']['files']:
+            tree['/']['files'].remove('.do-not-delete-this-file')
+    except:
+        pass
     return jsonify(tree)
 
 @app.route('/api/add_directory', methods=['POST'])
@@ -146,7 +150,6 @@ def redirect_to_home(initial_path):
     """
     Redirect to the endpoint /nav/initial_path.
     """
-    print('Redirector: ', initial_path)
     return redirect('/nav/' + initial_path)
 
 @app.route('/nav/', defaults = {'initial_path': '/'})
@@ -155,7 +158,6 @@ def home(initial_path):
     """
     The homepage.
     """
-    print('Home init: ', initial_path)
     if initial_path[-1] == '/':
         initial_path = initial_path[:-1]
     if initial_path != '/':
@@ -163,7 +165,6 @@ def home(initial_path):
     context = {
         'initial_path': initial_path,
     }
-    print('Home new: ', initial_path)
     homepage = CONFIGURATION['app']['theme'] + '.html'
     return render_template(homepage, **context)
 
