@@ -5,6 +5,7 @@ import helpers
 import html
 import os
 import sys
+import time
 
 mynode = ""
 CONFIGURATION = helpers.get_config(sys.argv)               # Load settings from config.py
@@ -82,15 +83,31 @@ def tree_api(name):
     for (dirpath, directories, files) in os.walk(path):
         dirpath = helpers.convert_to_web_slashes(dirpath)
         name, parent = helpers.get_trunc_path(dirpath, LEN_CONTENT_FOLDER)
+        file_info = {}
+        for file in files:
+            filename = os.path.join(dirpath, file)
+            stats = os.stat(filename)
+            if '.' in filename:
+                file_type = filename.rsplit('.', 1)[-1]
+            else:
+                file_type = ''
+            file_info[file] = {
+                    'mtime': time.ctime(stats.st_mtime),
+                    'ctime': time.ctime(stats.st_ctime),
+                    'size': stats.st_size / (1024 * 1024),
+                    'file_type': file_type,
+            }
         tree[name] = {
             'directories': directories,
             'files': files,
             'clean': True,
             'parent': parent,
+            'file_info': file_info,
         }
     try:
         if '.do-not-delete-this-file' in tree['/']['files']:
             tree['/']['files'].remove('.do-not-delete-this-file')
+            tree['/']['file_info'].pop('.do-not-delete-this-file')
     except:
         pass
     return jsonify(tree)
