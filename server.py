@@ -82,6 +82,8 @@ def tree_api(name):
     for (dirpath, directories, files) in os.walk(path):
         dirpath = helpers.convert_to_web_slashes(dirpath)
         name, parent = helpers.get_trunc_path(dirpath, LEN_CONTENT_FOLDER)
+        directories.sort()
+        files.sort()
         tree[name] = {
             'directories': directories,
             'files': files,
