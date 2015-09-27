@@ -7,7 +7,6 @@ import os
 import sys
 import time
 
-mynode = ""
 CONFIGURATION = helpers.get_config(sys.argv)               # Load settings from config.py
 
 CONTENT_FOLDER = CONFIGURATION['app']['content_folder']    # The folder where UL/DL happen
@@ -43,28 +42,6 @@ def download_directory(dirname):
     output_name = 'zip/' + end_name
     helpers.create_zip_file(dirname, output_name + '.zip')
     return send_from_directory(os.getcwd() + '/zip/', end_name + '.zip', as_attachment=True)
-    # try:
-    #     # print('Checking for existing')
-    #     open(output_name + '.zip', 'rb')
-    #     # print('Deleting')
-    #     os.remove(output_name + '.zip')
-    #     # print('Deleted')
-    # except:
-    #     # print('e')
-    #     pass
-    # print(output_name, dirname)
-    # idx = 0
-    # while idx < 5:
-    #     helpers.create_zip_file(dirname, output_name + '.zip')
-    #     try:
-    #         open(output_name + '.zip')
-    #         return send_from_directory('zip/', end_name + '.zip', as_attachment=True)
-    #         break
-    #     except:
-    #         idx += 1
-    #         print('Retrying', idx)
-    # print('\n\n\n\n\n\nZip filename:', zip_file, '\n\n\n\n\n\n')
-    # return jsonify({'error': True, 'status': 'Could not make archive'})
 
 @app.route('/api/get_tree/', defaults = {'name': '/'})
 @app.route('/api/get_tree/<path:name>')
@@ -138,14 +115,6 @@ def add_directory():
     os.makedirs(name)
     return helpers.generate_error('0', 'Directory created.')
 
-@app.route('/c/<path:path>', methods=['GET', 'POST']) # Legacy support, remove this in the future
-def show_upload_form(path):
-    """
-    Serve a form to test file uploads.
-    """
-    return render_template('index.html')
-
-@app.route('/upload', methods=['POST']) # Legacy support, remove this in the future
 @app.route('/api/upload_files', methods=['POST'])
 def upload_handler():
     """
@@ -159,7 +128,7 @@ def upload_handler():
             if file and helpers.is_allowed_file(file.filename):
                 filename = helpers.get_name(file.filename, filenames)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], path, filename))
-    return jsonify({'status': 'success'})
+    return helpers.generate_error('0', 'Upload successful.')
 
 @app.route('/', defaults = {'initial_path': ''})
 @app.route('/<path:initial_path>')
@@ -182,7 +151,7 @@ def home(initial_path):
     context = {
         'initial_path': initial_path,
     }
-    homepage = CONFIGURATION['app']['theme'] + '.html'
+    homepage = CONFIGURATION['app']['theme'] + '/index.html'
     return render_template(homepage, **context)
 
 if __name__ == '__main__':

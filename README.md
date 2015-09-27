@@ -34,7 +34,7 @@ Works on all devices. It's a website, not an app! Let us know if there is as iss
 ### API
 
 #### /[nav/<path:initial_path>]
-  Renders `theme_name.html` template.  
+  Renders `theme_name/index.html` template.  
   Optional: `initial_path` the file/directory that must be open on start up. Root of the content directory by default.
 
 #### /api/upload_files

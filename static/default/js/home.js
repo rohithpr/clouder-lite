@@ -120,7 +120,6 @@ $(document).ready( function(){
 
   /* Changes directory
    */
-
   $(document).on('click', '.node', function(e){
     var node = $(this) //.parent().parent()
     var selected = $(node).find('.item-name').html()
@@ -149,34 +148,69 @@ $(document).ready( function(){
       }
     })
   })
+
+  /* File upload handler
+   */
+  $(document).on('click','#upload-file-btn',function(e){
+    var n = GLOBALS.current_parent
+    var form_data = new FormData($('#upload-form')[0])
+    if (n[0] == '/')
+      n = n.slice(1,(n.length))
+    form_data.append('path',n)
+    console.log('Starting upload')
+
+    $('#upload-progress-div').css('display', 'inherit')
+    var upload_form = $('#upload-form')
+    upload_form.css('display', 'none')
+    var upload_status_message = $('#upload-status-message')
+    var upload_progress_bar = $('#upload-progress-bar')
+
+    $.ajax({
+      xhr: function() {
+        var xhr = new window.XMLHttpRequest()
+        xhr.upload.addEventListener('progress', function(e) {
+          if (e.lengthComputable) {
+            var percent_complete = e.loaded / e.total
+            percent_complete = parseInt(percent_complete * 100)
+            $(upload_progress_bar).attr('aria-valuenow', percent_complete)
+            $(upload_progress_bar).css('width', percent_complete + '%')
+            $(upload_status_message).html(percent_complete + '% complete')
+            if (percent_complete === 100) {
+              $(upload_status_message).html('Almost there...')
+            }
+          }
+        }, false)
+        return xhr
+      },
+      type: 'POST',
+      url: '/api/upload_files',
+      data: form_data,
+      contentType: false,
+      processData: false,
+      success: function(response) {
+        if (response.error_code == '0') {
+          $(upload_status_message).html('Upload successful. Click to upload more files.')
+          $(upload_progress_bar).addClass('progress-bar-success')
+        }
+      },
+      error: function() {
+        console.log('Error uploading file.')
+        $(upload_form).css('display', 'inherit')
+        $(upload_progress_bar).css('display', 'none')
+      }
+    })
+  })
+
+  /* Hides upload-progress-bar and shows upload-form
+   */
+  $(document).on('click', '#upload-progress-bar', function() {
+    var upload_form = $('#upload-form')
+    var upload_progress_bar = $('#upload-progress-bar')
+    var upload_progress_div = $('#upload-progress-div')
+    if ($(upload_progress_bar).hasClass('progress-bar-success')) {
+      $(upload_progress_bar).removeClass('progress-bar-success')
+      $(upload_progress_div).css('display', 'none')
+      $(upload_form).css('display', 'inherit')
+    }
+  })
 })
-
-//.......Event to upload to particular directory..................
-$(document).on('click','#upload-file-btn',function(e){
-          var n = GLOBALS.current_parent
-          var form_data = new FormData($('#upload-form')[0])
-          if(n[0] == '/')
-                n = n.slice(1,(n.length)) 
-          form_data.append('path',n)
-          console.log('Starting upload')
-          $.ajax({
-              type: 'POST',
-              url: '/upload',
-              data: form_data,
-              contentType: false,
-              processData: false,
-              success: function(response) {
-                console.log(response)
-              },
-
-              error: function() {
-                console.log('Error uploading file.')
-              }
-          });
-      });
- 
-
-
-
-
- 
