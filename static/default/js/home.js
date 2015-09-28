@@ -174,7 +174,7 @@ $(document).ready( function(){
             percent_complete = parseInt(percent_complete * 100)
             $(upload_progress_bar).attr('aria-valuenow', percent_complete)
             $(upload_progress_bar).css('width', percent_complete + '%')
-            $(upload_status_message).html(percent_complete + '% complete')
+            $(upload_status_message).html(percent_complete + '%')
             if (percent_complete === 100) {
               $(upload_status_message).html('Almost there...')
             }
