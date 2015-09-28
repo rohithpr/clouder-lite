@@ -2,7 +2,7 @@
 
 A simple Python3-Flask application to turn a computer into a cloud storage system.
 
-Transfer files at speeds greater than that offfered by Bluetooth or even USB.
+Transfer files at speeds greater than that offered by Bluetooth or even USB.
 
 ## Contents
 * [Support](#support)
@@ -11,7 +11,7 @@ Transfer files at speeds greater than that offfered by Bluetooth or even USB.
 
 ### Support
 
-Works on all devices. It's a website, not an app! Let us know if there is as issue.
+Works on all devices. It's a website, not an app! Let us know if there is an issue.
 
 ###### Note: Some phone browsers (such as UC browser on Windows Phone) do not support selecting multiple files for upload at once; use browsers that do support it!
 
