@@ -135,7 +135,7 @@ def generate_qr_code_internal(config):
     """
     try:
         interface = config['app']['interface']
-        address = netifaces.ifaddresses(interface)[2][0]['addr']
+        address = 'http://' + netifaces.ifaddresses(interface)[2][0]['addr'] + ':' + str(config['flask']['port'])
         generate_qr_code_image(address, 'static/default/img/internal_address.png', 'png')
     except:
         print('Failed to generate QR Code for internal address')

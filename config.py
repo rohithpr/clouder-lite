@@ -23,8 +23,8 @@ configurations = {
     },
     'app': {
       'content_folder': getcwd() + '/content/',
-      'qr_code_external': True,
-      'qr_code_internal': True,
+      'qr_code_external': False,
+      'qr_code_internal': False,
       'interface': 'wlan0',
       'theme': 'default',
     },
@@ -39,8 +39,8 @@ configurations = {
     },
     'app': {
       'content_folder': getcwd() + '/content/',
-      'qr_code_external': False,
-      'qr_code_internal': False,
+      'qr_code_external': True,
+      'qr_code_internal': True,
       'interface': 'wlan0',
       'theme': 'default',
     },
