@@ -152,11 +152,15 @@ $(document).ready( function(){
   /* File upload handler
    */
   $(document).on('click','#upload-file-btn',function(e){
-    var n = GLOBALS.current_parent
+    var path = GLOBALS.current_parent
+    if ($('#files')['0'].files.length == 0) {
+      // No file selected
+      return
+    }
     var form_data = new FormData($('#upload-form')[0])
-    if (n[0] == '/')
-      n = n.slice(1,(n.length))
-    form_data.append('path',n)
+    if (path[0] == '/')
+      path = path.slice(1,(path.length))
+    form_data.append('path', path)
     console.log('Starting upload')
 
     $('#upload-progress-div').css('display', 'inherit')

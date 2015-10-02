@@ -83,3 +83,15 @@ body {
   overflow: auto;
   font-size: 1.2em;
 }
+
+#upload-file-btn {
+  background-color: transparent;
+  border: 2px solid black;
+  border-radius: 0%;
+  width: 100%;
+  color: black;
+}
+
+#upload-file-btn:hover {
+  background-color: #cccccc;
+}

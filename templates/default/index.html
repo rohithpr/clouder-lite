@@ -39,12 +39,13 @@
             <form id='upload-form' method='post' enctype='multipart/form-data'>
               <br/>
               <h5>Select files to be uploaded</h5>
-              <p><input type='file' multiple='' name='files' id='files'></p>
-              <p><input type='button' id='upload-file-btn' value='Upload'/></p>
+              <p><input type='file' multiple='multiple' name='files' id='files'></p>
+              <p><input type='button' class='btn' id='upload-file-btn' value='Upload'/></p>
             </form>
             <div class="progress" id="upload-progress-div" style="border-radius:0%; display:none;">
               <div class="progress-bar" id="upload-progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;">
                 <span id="upload-status-message">0% Complete</span>
+              </div>
             </div>
           </div>
         </div>
