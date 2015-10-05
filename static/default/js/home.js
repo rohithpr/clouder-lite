@@ -83,13 +83,11 @@ $(document).ready( function(){
     return new_parent
   }
  
-  var main = function() {
-    /* Home screen shows the contents of the user's root directory
-     */
-     // document.write(GLOBALS.current_parent)
-    populate(GLOBALS.start_node)
-  }
-  main()
+  /* Display the contents of the required directory
+   */
+  (function() {
+      populate(GLOBALS.start_node)
+  }())
 
   /* Event handlers */
 
