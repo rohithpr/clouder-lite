@@ -9,6 +9,10 @@ debug: True- opens a terminal in case of error. DO NOT set it to True if you're 
 app settings::
 content_folder: the directory that will be used as root for uploads and downloads.
                 Moving 'UP' from this directory will not be allowed for security reasons.
+qr_code_external: whether or not a qr code should be generated for the external IP address.
+qr_code_internal: whether or not a qr code should be generated for the internal IP address.
+interface: the interface through which the computer is connected.
+theme: the front-end theme that is being used.
 """
 
 from os import getcwd
