@@ -78,10 +78,13 @@ def get_config(args):
     """ (list) -> dict
     Loads configurations from config.py.
     """
+    configuration = config.configurations['default']
     if len(args) > 1:
-        configuration = config.configurations[args[1]]
-    else:
-        configuration = config.configurations['default']
+        user_specified = config.configurations[args[1]]
+        for key in user_specified['flask'].keys():
+            configuration['flask'][key] = user_specified['flask'][key]
+        for key in user_specified['app'].keys():
+            configuration['app'][key] = user_specified['app'][key]
     return configuration
 
 def create_zip_file(source, destination):
