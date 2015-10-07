@@ -39,15 +39,15 @@ $(document).ready( function(){
     var row = $('<div class="row"></div>')
     var icon = $('<div class="col-xs-1"><span class="glyphicon glyphicon-' + icon + '"></span></div>')
     var download_button = $('<div class="col-xs-1 downloader"><span class="glyphicon glyphicon-download"></span></div>')
-    var node_name = $('<div class="col-xs-9 col-sm-10"><div class="item-name">' + name + '</div></div>') 
+    var node_name = $('<div class="col-xs-9 col-sm-10"><div class="item-name">' + name + '</div></div>')
     row.append(icon)
     row.append(node_name)
     row.append(download_button)
     row.append(ctime_f)
     node.append(row)
-    outer_folder.append(node)
     if (type == 'file') {
           var row_f = $('<div class="row" style="display:none"></div>')
+          $(row_f).addClass("rf_class")
           var ctime_f = $('<div class="col-xs-9 col-sm-10"><div class="item-name">' + fileinfo["c_time"] + '</div></div>')
           var filetype_f = $('<div class="col-xs-9 col-sm-10"><div class="item-name">' + fileinfo["file_type"] + '</div></div>')
           var mtime_f = $('<div class="col-xs-9 col-sm-10"><div class="item-name">' + fileinfo["mtime"] + '</div></div>')
@@ -57,8 +57,8 @@ $(document).ready( function(){
           row_f.append(mtime_f)
           row_f.append(size_f)
           node.append(row_f)
-          outer_folder.append(node)
     }
+    outer_folder.append(node)
   }
 
   /* Responsible for calling relevant functions for fetching the tree
@@ -146,12 +146,9 @@ $(document).ready( function(){
         populate(new_parent)    
         }
       else if (type === 'file') {
-        
-        if(node.style.visibility == 'visible')
-          node.style.visibility = 'hidden'
-        else
-          node.style.visibility = 'visible'
-        // // var file_path = generate_new_path(selected)
+        $(node).find('.rf_class').toggle()
+        console.log($(node).css('display'))
+        // // var file_path = generate_nw_path(selected)
         // // window.location.href = '/dl' + file_path
       }
       else if (type === 'root') {
