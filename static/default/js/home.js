@@ -32,18 +32,33 @@ $(document).ready( function(){
 
   /* Creates the thumbnail that holds the icons
    */
-  var create_thumbnail = function(name, icon, type, outer_folder) {
+  var create_thumbnail = function(name, icon, type, outer_folder, fileinfo={}) {
+    //c_time='', filetype='', m_time='', size_file=''
     //console.log(name, icon, type, outer_folder)
     var node = $('<div class="col-xs-12 node" type="' + type + '"></div>')
     var row = $('<div class="row"></div>')
     var icon = $('<div class="col-xs-1"><span class="glyphicon glyphicon-' + icon + '"></span></div>')
     var download_button = $('<div class="col-xs-1 downloader"><span class="glyphicon glyphicon-download"></span></div>')
-    var node_name = $('<div class="col-xs-9 col-sm-10"><div class="item-name">' + name + '</div></div>')
+    var node_name = $('<div class="col-xs-9 col-sm-10"><div class="item-name">' + name + '</div></div>') 
     row.append(icon)
     row.append(node_name)
     row.append(download_button)
+    row.append(ctime_f)
     node.append(row)
     outer_folder.append(node)
+    if (type == 'file') {
+          var row_f = $('<div class="row" style="display:none"></div>')
+          var ctime_f = $('<div class="col-xs-9 col-sm-10"><div class="item-name">' + fileinfo["c_time"] + '</div></div>')
+          var filetype_f = $('<div class="col-xs-9 col-sm-10"><div class="item-name">' + fileinfo["file_type"] + '</div></div>')
+          var mtime_f = $('<div class="col-xs-9 col-sm-10"><div class="item-name">' + fileinfo["mtime"] + '</div></div>')
+          var size_f = $('<div class="col-xs-9 col-sm-10"><div class="item-name">' + fileinfo["size"] + '</div></div>')
+          row_f.append(ctime_f)      
+          row_f.append(filetype_f)
+          row_f.append(mtime_f)
+          row_f.append(size_f)
+          node.append(row_f)
+          outer_folder.append(node)
+    }
   }
 
   /* Responsible for calling relevant functions for fetching the tree
@@ -65,8 +80,9 @@ $(document).ready( function(){
         create_thumbnail(name, 'folder-open', 'directory', outer_folder)
       })
       tree[new_parent].files.forEach(function(name){
-        create_thumbnail(name, 'file', 'file', outer_folder)
+        create_thumbnail(name, 'file', 'file', outer_folder,tree[new_parent].file_info[name])
       })
+      //,tree[new_parent].file_info[name]["ctime"],tree[new_parent].file_info[name]["file_type"],tree[new_parent].file_info[name]["mtime"],tree[new_parent].file_info[name]["size"]
       $('#main-area').empty().append(outer_folder)
       GLOBALS.current_parent = new_parent
       window.history.pushState({}, '', '/nav' + GLOBALS.current_parent)
@@ -130,8 +146,13 @@ $(document).ready( function(){
         populate(new_parent)    
         }
       else if (type === 'file') {
-        // var file_path = generate_new_path(selected)
-        // window.location.href = '/dl' + file_path
+        
+        if(node.style.visibility == 'visible')
+          node.style.visibility = 'hidden'
+        else
+          node.style.visibility = 'visible'
+        // // var file_path = generate_new_path(selected)
+        // // window.location.href = '/dl' + file_path
       }
       else if (type === 'root') {
         var new_parent = '/'
