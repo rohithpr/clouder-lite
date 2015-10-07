@@ -79,15 +79,15 @@ $(document).ready( function(){
       new_parent += '/'
     }
     new_parent += selected
-    //alert(node_name)
     return new_parent
   }
  
   /* Display the contents of the required directory
    */
-  (function() {
-      populate(GLOBALS.start_node)
-  }())
+  var main = function() {
+    populate(GLOBALS.start_node)
+  }
+  main()
 
   /* Event handlers */
 
@@ -126,7 +126,7 @@ $(document).ready( function(){
       if (type === 'directory') {
         var new_parent = generate_new_path(selected)
         populate(new_parent)    
-        }
+      }
       else if (type === 'file') {
         // var file_path = generate_new_path(selected)
         // window.location.href = '/dl' + file_path
