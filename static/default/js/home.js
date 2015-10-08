@@ -33,7 +33,7 @@ $(document).ready( function(){
   /* Creates the thumbnail that holds the icons
    */
   var create_thumbnail = function(name, icon, type, outer_folder, fileinfo={}) {
-    //c_time='', filetype='', m_time='', size_file=''
+    //c_time='', filetype='', m_time='', sizeile=''
     //console.log(name, icon, type, outer_folder)
     var node = $('<div class="col-xs-12 node" type="' + type + '"></div>')
     var row = $('<div class="row"></div>')
@@ -43,20 +43,19 @@ $(document).ready( function(){
     row.append(icon)
     row.append(node_name)
     row.append(download_button)
-    row.append(ctime_f)
     node.append(row)
     if (type == 'file') {
-          var row_f = $('<div class="row" style="display:none"></div>')
-          $(row_f).addClass("rf_class")
-          var ctime_f = $('<div class="col-xs-9 col-sm-10"><div class="item-name">' + fileinfo["c_time"] + '</div></div>')
-          var filetype_f = $('<div class="col-xs-9 col-sm-10"><div class="item-name">' + fileinfo["file_type"] + '</div></div>')
-          var mtime_f = $('<div class="col-xs-9 col-sm-10"><div class="item-name">' + fileinfo["mtime"] + '</div></div>')
-          var size_f = $('<div class="col-xs-9 col-sm-10"><div class="item-name">' + fileinfo["size"] + '</div></div>')
-          row_f.append(ctime_f)      
-          row_f.append(filetype_f)
-          row_f.append(mtime_f)
-          row_f.append(size_f)
-          node.append(row_f)
+      var row_file_info = $('<div class="row" style="display:none"></div>')
+      $(row_file_info).addClass("row_file_class")
+      var ctime = $('<div class="col-xs-9 col-sm-10"><div class="item-name">' + fileinfo["c_time"] + '</div></div>')
+      var filetype_f = $('<div class="col-xs-9 col-sm-10"><div class="item-name">' + fileinfo["file_type"] + '</div></div>')
+      var mtime = $('<div class="col-xs-9 col-sm-10"><div class="item-name">' + fileinfo["mtime"] + '</div></div>')
+      var size = $('<div class="col-xs-9 col-sm-10"><div class="item-name">' + fileinfo["size"] + '</div></div>')
+      row_file_info.append(ctime)      
+      row_file_info.append(filetype_f)
+      row_file_info.append(mtime)
+      row_file_info.append(size)
+      node.append(row_file_info)
     }
     outer_folder.append(node)
   }
@@ -146,8 +145,7 @@ $(document).ready( function(){
         populate(new_parent)    
         }
       else if (type === 'file') {
-        $(node).find('.rf_class').toggle()
-        console.log($(node).css('display'))
+        $(node).find('.row_file_class').toggle()
         // // var file_path = generate_nw_path(selected)
         // // window.location.href = '/dl' + file_path
       }
