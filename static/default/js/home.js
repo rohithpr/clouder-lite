@@ -14,7 +14,6 @@ $(document).ready( function(){
         cache: false,
         success: function(response) {
           response = $.parseJSON(response)
-          // console.log(response)
           GLOBALS.tree = response
           GLOBALS.clean = true
           callback(GLOBALS.tree)
@@ -33,13 +32,19 @@ $(document).ready( function(){
   /* Creates the thumbnail that holds the icons
    */
   var create_thumbnail = function(name, icon, type, outer_folder, fileinfo={}) {
-    //c_time='', filetype='', m_time='', sizeile=''
-    //console.log(name, icon, type, outer_folder)
-    var node = $('<div class="col-xs-12 node" type="' + type + '"></div>')
-    var row = $('<div class="row"></div>')
-    var icon = $('<div class="col-xs-1"><span class="glyphicon glyphicon-' + icon + '"></span></div>')
-    var download_button = $('<div class="col-xs-1 downloader"><span class="glyphicon glyphicon-download"></span></div>')
-    var node_name = $('<div class="col-xs-9 col-sm-10"><div class="item-name">' + name + '</div></div>')
+    var node = $('<div>') .addClass('col-xs-12 node')
+                          .attr('type', type)
+    var row = $('<div>').addClass('row')
+    var icon = $('<div>') .addClass('col-xs-1')
+                          .append('<span>')
+                            .addClass('glyphicon glyphicon-' + icon)
+    var node_name = $('<div>').addClass('col-xs-9 col-sm-10')
+                              .append('<div>')
+                                .addClass('item-name')
+                                .html(name)
+    var download_button = $('<div>').addClass('col-xs-1 downloader')
+                                    .append('<span>')
+                                      .addClass('glyphicon glyphicon-download')
     row.append(icon)
     row.append(node_name)
     row.append(download_button)
@@ -67,13 +72,13 @@ $(document).ready( function(){
     get_tree(function(tree) {
       // console.log(tree)
       // Special links
-      var outer_folder = $('<div></div>')
+      var outer_folder = $('<div>')
       create_thumbnail('Move up', 'level-up', 'parent', outer_folder)
       create_thumbnail('Root', 'home', 'root', outer_folder)
       $('#special-links').empty().append(outer_folder)
 
       // Directory contents
-      var outer_folder = $('<div></div>')
+      var outer_folder = $('<div>')
       outer_folder.append('<br/>')
       tree[new_parent].directories.forEach(function(name){
         create_thumbnail(name, 'folder-open', 'directory', outer_folder)
@@ -81,7 +86,6 @@ $(document).ready( function(){
       tree[new_parent].files.forEach(function(name){
         create_thumbnail(name, 'file', 'file', outer_folder,tree[new_parent].file_info[name])
       })
-      //,tree[new_parent].file_info[name]["ctime"],tree[new_parent].file_info[name]["file_type"],tree[new_parent].file_info[name]["mtime"],tree[new_parent].file_info[name]["size"]
       $('#main-area').empty().append(outer_folder)
       GLOBALS.current_parent = new_parent
       window.history.pushState({}, '', '/nav' + GLOBALS.current_parent)
@@ -113,7 +117,6 @@ $(document).ready( function(){
     var node = $(this).parent().parent()
     var selected = $(node).find('.item-name').html()
     var type = $(node).attr('type')
-    // console.log(type)
     get_tree(function(tree) {
       if (type === 'directory') {
         var dir_path = generate_new_path(selected)
@@ -144,8 +147,6 @@ $(document).ready( function(){
       }
       else if (type === 'file') {
         $(node).find('.row_file_class').toggle()
-        // // var file_path = generate_nw_path(selected)
-        // // window.location.href = '/dl' + file_path
       }
       else if (type === 'root') {
         var new_parent = '/'
@@ -178,8 +179,7 @@ $(document).ready( function(){
     console.log('Starting upload')
 
     $('#upload-progress-div').css('display', 'inherit')
-    var upload_form = $('#upload-form')
-    upload_form.css('display', 'none')
+    var upload_form = $('#upload-form').css('display', 'none')
     var upload_status_message = $('#upload-status-message')
     var upload_progress_bar = $('#upload-progress-bar')
 
