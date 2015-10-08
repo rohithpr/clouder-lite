@@ -32,7 +32,8 @@ $(document).ready( function(){
 
   /* Creates the thumbnail that holds the icons
    */
-  var create_thumbnail = function(name, icon, type, outer_folder) {
+  var create_thumbnail = function(name, icon, type, outer_folder, fileinfo={}) {
+    //c_time='', filetype='', m_time='', sizeile=''
     //console.log(name, icon, type, outer_folder)
     var node = $('<div class="col-xs-12 node" type="' + type + '"></div>')
     var row = $('<div class="row"></div>')
@@ -43,6 +44,19 @@ $(document).ready( function(){
     row.append(node_name)
     row.append(download_button)
     node.append(row)
+    if (type == 'file') {
+      var row_file_info = $('<div class="row" style="display:none"></div>')
+      $(row_file_info).addClass("row_file_class")
+      var ctime = $('<div class="col-xs-9 col-sm-10"><div class="item-name">' + fileinfo["c_time"] + '</div></div>')
+      var filetype_f = $('<div class="col-xs-9 col-sm-10"><div class="item-name">' + fileinfo["file_type"] + '</div></div>')
+      var mtime = $('<div class="col-xs-9 col-sm-10"><div class="item-name">' + fileinfo["mtime"] + '</div></div>')
+      var size = $('<div class="col-xs-9 col-sm-10"><div class="item-name">' + fileinfo["size"] + '</div></div>')
+      row_file_info.append(ctime)      
+      row_file_info.append(filetype_f)
+      row_file_info.append(mtime)
+      row_file_info.append(size)
+      node.append(row_file_info)
+    }
     outer_folder.append(node)
   }
 
@@ -65,8 +79,9 @@ $(document).ready( function(){
         create_thumbnail(name, 'folder-open', 'directory', outer_folder)
       })
       tree[new_parent].files.forEach(function(name){
-        create_thumbnail(name, 'file', 'file', outer_folder)
+        create_thumbnail(name, 'file', 'file', outer_folder,tree[new_parent].file_info[name])
       })
+      //,tree[new_parent].file_info[name]["ctime"],tree[new_parent].file_info[name]["file_type"],tree[new_parent].file_info[name]["mtime"],tree[new_parent].file_info[name]["size"]
       $('#main-area').empty().append(outer_folder)
       GLOBALS.current_parent = new_parent
       window.history.pushState({}, '', '/nav' + GLOBALS.current_parent)
@@ -128,8 +143,9 @@ $(document).ready( function(){
         populate(new_parent)    
       }
       else if (type === 'file') {
-        // var file_path = generate_new_path(selected)
-        // window.location.href = '/dl' + file_path
+        $(node).find('.row_file_class').toggle()
+        // // var file_path = generate_nw_path(selected)
+        // // window.location.href = '/dl' + file_path
       }
       else if (type === 'root') {
         var new_parent = '/'
@@ -176,7 +192,7 @@ $(document).ready( function(){
             percent_complete = parseInt(percent_complete * 100)
             $(upload_progress_bar).attr('aria-valuenow', percent_complete)
             $(upload_progress_bar).css('width', percent_complete + '%')
-            $(upload_status_message).html(percent_complete + '% complete')
+            $(upload_status_message).html(percent_complete + '%')
             if (percent_complete === 100) {
               $(upload_status_message).html('Almost there...')
             }
