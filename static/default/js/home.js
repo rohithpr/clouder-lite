@@ -31,7 +31,7 @@ $(document).ready( function(){
 
   /* Creates the thumbnail that holds the icons
    */
-  var create_thumbnail = function(name, icon, type, outer_folder, fileinfo={}) {
+  var create_thumbnail = function(name, icon, type, outer_folder, fileinfo) {
     var node = $('<div>') .addClass('col-xs-12 node')
                           .attr('type', type)
     var row = $('<div>').addClass('row')
