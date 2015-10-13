@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, redirect, url_for, render_template, send_from_directory
+from flask.ext.cors import CORS
 from werkzeug import secure_filename
 
 import helpers
@@ -14,6 +15,7 @@ LEN_CONTENT_FOLDER = len(CONTENT_FOLDER) - 1
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = CONTENT_FOLDER        # Tell flask that this is where all uploads are supposed to go
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 @app.route('/dl/<path:filename>') # Legacy support, remove this in the future
 @app.route('/download_file/<path:filename>') # Legacy support, remove this in the future
