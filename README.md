@@ -1,5 +1,7 @@
 # clouder-lite
 
+[![Code Climate](https://codeclimate.com/github/rohithpr/clouder-lite/badges/gpa.svg)](https://codeclimate.com/github/rohithpr/clouder-lite)
+
 A simple Python3-Flask application to turn a computer into a cloud storage system.
 
 Transfer files at speeds greater than that offered by Bluetooth or even USB.
