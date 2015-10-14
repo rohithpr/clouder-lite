@@ -81,9 +81,8 @@ def get_config(args):
     configuration = config.configurations['default']
     if len(args) > 1:
         user_specified = config.configurations[args[1]]
-        for config_type in ['flask', 'app']:
-            for key in user_specified[config_type].keys():
-                configuration[config_type][key] = user_specified[config_type][key]
+        configuration['app'].update(user_specified['app'])
+        configuration['flask'].update(user_specified['flask'])
     return configuration
 
 def create_zip_file(source, destination):
