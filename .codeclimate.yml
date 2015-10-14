@@ -5,5 +5,4 @@ exclude_paths:
 - "static/default/js/bootstrap.min.js"
 - "static/default/js/jquery-1.11.3.min.js"
 - "static/default/css/bootstrap.min.css"
-- "static/default/css/bootstrap.min.css"
 - "static/default/js/jquery-ui-1.11.1.min.js"
