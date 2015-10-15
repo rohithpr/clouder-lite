@@ -149,3 +149,10 @@ def generate_qr_codes(config):
         generate_qr_code_external(config)
     if config['app']['qr_code_internal']:
         generate_qr_code_internal(config)
+
+def clear_zip_folder():
+    """ () -> None
+    Clears the contents of the zip folder.
+    """
+    for zip_file in os.listdir('zip'):
+        os.remove(os.path.join('zip', zip_file))

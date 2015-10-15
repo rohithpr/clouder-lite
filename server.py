@@ -17,6 +17,8 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = CONTENT_FOLDER        # Tell flask that this is where all uploads are supposed to go
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
+helpers.clear_zip_folder()
+
 @app.route('/dl/<path:filename>') # Legacy support, remove this in the future
 @app.route('/download_file/<path:filename>') # Legacy support, remove this in the future
 @app.route('/api/download_file/<path:filename>')
