@@ -5,7 +5,6 @@ body {
 #side-menu {
   border:1px solid black;
   margin:1px;
-  height: 100px;
 }
 
 /*#main-area {
@@ -48,6 +47,7 @@ body {
 
 .glyphicon-download:hover {
   color: #5DC9A0;
+  cursor: pointer;
 }
 
 .glyphicon {
@@ -66,7 +66,7 @@ body {
 }
 
 .node:hover {
-  cursor: default;
+  cursor: pointer;
 }
 
 .node > .row > div {
@@ -94,4 +94,17 @@ body {
 
 #upload-file-btn:hover {
   background-color: #cccccc;
+}
+
+#toggle-upload-form-area {
+  color: #3D9970;
+}
+
+#toggle-upload-form-area:hover {
+  color: #5DC9A0;
+  cursor: pointer;
+}
+
+#upload-form-area {
+  display: none;
 }

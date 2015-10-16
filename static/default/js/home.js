@@ -231,4 +231,8 @@ $(document).ready( function(){
       $(upload_form).css('display', 'inherit')
     }
   })
+
+  $('#toggle-upload-form-area').click( function(e) {
+    $('#upload-form-area').toggle()
+  })
 })
