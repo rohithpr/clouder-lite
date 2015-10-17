@@ -111,6 +111,11 @@ def add_directory():
     name = request.form.get('name')
     parent = request.form.get('parent')
 
+    if name is None:
+        return helpers.generate_error('4', 'Name of directory missing')
+    if parent is None:
+        return helpers.generate_error('4', 'Name of parent missing')
+
     # Clean the names received from client
     name = secure_filename(name)
     parent = secure_filename(parent)
