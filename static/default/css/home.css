@@ -85,14 +85,17 @@ body {
 }
 
 #upload-file-btn {
+  width: 100%;
+}
+
+.btn {
   background-color: transparent;
   border: 2px solid black;
   border-radius: 0%;
-  width: 100%;
   color: black;
 }
 
-#upload-file-btn:hover {
+.btn:hover {
   background-color: #cccccc;
 }
 

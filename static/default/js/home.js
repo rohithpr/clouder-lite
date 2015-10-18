@@ -232,7 +232,30 @@ $(document).ready( function(){
     }
   })
 
+  /* Toggle the upload form on clicking the upload button in the sidebar
+   */
   $('#toggle-upload-form-area').click( function(e) {
     $('#upload-form-area').toggle()
+  })
+
+  /* Create a new directory on click the Create button
+   */
+  $('#create-directory').click( function(e) {
+    var dirname = $(this).parent().children()[0].value
+    var data = {
+      name: dirname,
+      parent: GLOBALS.current_parent
+    }
+    $.ajax({
+      url: '/api/add_directory',
+      method: 'POST',
+      data: data,
+      success: function(response) {
+        console.log(response)
+      },
+      error: function(xhr, b, c) {
+        console.log(xhr, b, c)
+      }
+    })
   })
 })
