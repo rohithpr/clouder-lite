@@ -258,4 +258,10 @@ $(document).ready( function(){
       }
     })
   })
+
+  /* Toggle the add directory form on clicking the add directory button in the sidebar
+   */
+  $('#toggle-add-directory-form-area').click( function(e) {
+    $('#add-directory-form-area').toggle()
+  })
 })

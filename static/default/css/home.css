@@ -2,7 +2,7 @@ body {
 
 }
 
-#side-menu {
+#sidebar {
   border:1px solid black;
   margin:1px;
 }
@@ -99,15 +99,19 @@ body {
   background-color: #cccccc;
 }
 
-#toggle-upload-form-area {
+.sidebar-glyphs {
   color: #3D9970;
 }
 
-#toggle-upload-form-area:hover {
+.sidebar-glyphs:hover {
   color: #5DC9A0;
   cursor: pointer;
 }
 
 #upload-form-area {
+  display: none;
+}
+
+#add-directory-form-area {
   display: none;
 }
