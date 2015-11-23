@@ -77,11 +77,9 @@ body {
   text-align: center;
 }
 
-.node > .row > div > .item-name {
-  padding: 0px;
-  /*border: 1px solid black;*/
-  overflow: auto;
+.item-name {
   font-size: 1.2em;
+  overflow: auto;
 }
 
 #upload-file-btn {
